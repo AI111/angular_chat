@@ -1,0 +1,50 @@
+<div class="container">
+  <div layout="column" class="md-inline-form">
+    <div layout-margin>
+      <h1>Login</h1>
+      <p>Accounts are reset on server restart from <code>server/config/seed.js</code>. Default account is <code>test@example.com</code> / <code>test</code></p>
+      <p>Admin account is <code>admin@example.com</code> / <code>admin</code></p>
+    </div>
+    <md-content layout-padding layout="column">
+      <form  name="form" ng-submit="vm.login(form)" novalidate>
+
+        <md-input-container class="md-block">
+          <label>Email</label>
+
+          <input type="email" name="email" class="form-control" ng-model="vm.user.email" required>
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <label>Password</label>
+
+          <input type="password" name="password" class="form-control" ng-model="vm.user.password" required>
+        </md-input-container>
+
+        <div class="form-group has-error">
+          <p class="help-block" ng-show="form.email.$error.required && form.password.$error.required && vm.submitted">
+             Please enter your email and password.
+          </p>
+          <p class="help-block" ng-show="form.email.$error.email && vm.submitted">
+             Please enter a valid email.
+          </p>
+
+          <p class="help-block">{{ vm.errors.other }}</p>
+        </div>
+
+        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap >
+          <md-button class="md-raised md-primary" type="submit">
+            Login
+          </md-button>
+          <md-button class="md-raised" href="/signup">
+            Register
+          </md-button>
+        </section>
+
+          <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+            <oauth-buttons classes="btn-block"></oauth-buttons>
+          </section>
+      </form>
+    </md-content>
+  </div>
+  <hr>
+</div>

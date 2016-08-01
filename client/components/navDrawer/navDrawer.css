@@ -1,0 +1,45 @@
+.nav-list{
+	
+}
+.nav-list md-list-item{
+padding: 0;
+margin: 0;
+}
+md-list-item a{
+	text-decoration: none;
+	width: 100%;
+	display: inline;
+}
+md-list-item a p{
+	display:inline;
+	color:rgba(0, 0, 0, 0.870588);
+    font-size: inherit;
+    height: inherit;
+    text-align: left;
+    text-transform: none;
+    width: 100%;
+    white-space: normal;
+}
+md-list-item a:active{
+	 background-color:#BBDEFB
+}
+.active{
+	background-color:#BBDEFB
+}
+.active md-icon{
+	color:#FF5722;
+}
+
+md-list-item a md-icon{
+	margin-right: 32px;
+  margin-left: 16px;
+	width: 24px;
+    margin-top: 16px;
+    margin-bottom: 12px;
+    box-sizing: content-box;
+}
+.user-avatar {
+  border-radius: 50%;
+  max-width: 50%;
+  height:auto;
+}

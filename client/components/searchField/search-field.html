@@ -1,0 +1,49 @@
+<div layout="column" ng-cloak>
+  <md-content class="md-padding">
+    <form ng-submit="$event.preventDefault()">
+      <md-autocomplete
+      ng-disabled="SearchCtrl.isDisabled"
+      md-no-cache="SearchCtrl.noCache"
+      md-selected-item="SearchCtrl.selectedItem"
+      md-search-text="SearchCtrl.searchText"
+      md-items="item in SearchCtrl.querySearch(SearchCtrl.searchText)"
+      md-item-text="item.name"
+      md-min-length="0"
+      placeholder="Search User"
+      md-menu-class="autocomplete-custom-template">
+
+      <md-item-template>
+        <!-- <span md-highlight-text="searchText" md-highlight-flags="^i">{{item.name}}</span> -->
+
+
+        <span class="item-title">
+          <!-- <img ng-src="{{item.img}}" class="md-avatar" alt="{{item.name }}" /> -->      
+          <span> {{item.name}} </span>
+        </span>
+        <span class="item-metastat">
+          <strong>{{item.email}}</strong> watchers
+        </span>
+      </md-item-template>
+      <md-not-found>
+        No Person matching "{{searchText}}" were found.
+      </md-not-found>
+    </md-autocomplete>
+    <!-- <br/>
+    <md-checkbox ng-model="SearchCtrl.simulateQuery">Simulate query for results?</md-checkbox>
+    <md-checkbox ng-model="SearchCtrl.noCache">Disable caching of queries?</md-checkbox>
+    <md-checkbox ng-model="SearchCtrl.isDisabled">Disable the input?</md-checkbox>
+ -->
+  </form>
+  <div class="profile" ng-show="SearchCtrl.selectedItem" layout="row" layout-xs="column">
+  <div flex="50"><img ng-src="{{SearchCtrl.selectedItem.img}}" ></div>
+    
+    <div flex layout-margin>
+     <h2>{{SearchCtrl.selectedItem.name}}</h2>
+     <p>{{SearchCtrl.selectedItem.email}}</p>
+     <md-button aria-label="Open phone interactions menu" >Send invite</md-button>
+   </div>
+   
+ </div>
+</md-content>
+</div>
+
