@@ -17,8 +17,9 @@
 
   class ContactsComponent {
     constructor($mdDialog,$http,$log) {
-      this.contacts=[];
-      this.invites=[];
+      this.isGrid=false;
+      this.contacts;
+      this.invites;
       this.message = 'Hello';
       this.$mdDialog=$mdDialog;
       this.$http=$http;

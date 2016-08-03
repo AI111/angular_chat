@@ -1,6 +1,7 @@
 <!-- <search-field></search-field>
 -->	
-<div id="contactContainer">
+
+
 	<md-toolbar class="md-hue-2">
 		<div class="md-toolbar-tools">
 			<md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">
@@ -10,21 +11,37 @@
 				<span>Toolbar with Disabled/Enabled Icon Buttons</span>
 			</h2>
 			<span flex></span>
-			<md-switch  aria-label="Switch 1">
+			<md-switch  aria-label="Switch 1" ng-model="$ctrl.isGrid">
 			</md-switch>
 		</div>
 	</md-toolbar>
-	<md-list flex>
-        <md-list-item class="md-3-line" ng-repeat="user in conyacts" ng-click="null">
-          <img ng-src="{{item.face}}?{{$index}}" class="md-avatar" alt="{{item.who}}" />
-          <div class="md-list-item-text" layout="column">
-            <h3>{{ item.who }}</h3>
-            <h4>{{ item.what }}</h4>
-            <p>{{ item.notes }}</p>
-          </div>
-        </md-list-item>
-        </md-list>
-	<md-button  class="md-fab md-fab-bottom-right" ng-click="$ctrl.addContact($event)" aria-label="Create person">
-		<md-icon md-svg-src="assets/icons/ic_add_black_24px.svg"></md-icon>
-	</md-button>
-</div>
+	<md-content flex>
+		<md-list ng-if="!$ctrl.isGrid" flex>
+			<md-list-item class="md-3-line" ng-repeat="user in $ctrl.invites" ng-click="null">
+				<img ng-src="{{user.from.img}}" class="md-avatar"  />
+				<div class="md-list-user-text" layout="column">
+					<h3>{{ user.from.name }}</h3>
+					<h4>{{ user.from.email }}</h4>
+					<p>{{ user.message }}</p>
+				</div>
+			</md-list-item>
+			<md-list-item class="md-3-line" ng-repeat="user in contacts" ng-click="null">
+				<img ng-src="{{user.face}}?{{$index}}" class="md-avatar" alt="{{user.who}}" />
+				<div class="md-list-user-text" layout="column">
+					<h3>{{ user.who }}</h3>
+					<h4>{{ user.what }}</h4>
+					<p>{{ user.notes }}</p>
+				</div>
+			</md-list-item>
+		</md-list>
+		<div ng-if="$ctrl.isGrid" layout="row" layout-wrap flex >
+		<div class="contacts-grid" layout="column" ng-repeat="user in $ctrl.invites" layout-align="center center" flex="50" flex-gt-sm="33">
+				<img ng-src="{{user.from.img}}" flex  />   
+				<h3>{{ user.from.name }}</h3>
+				<h4>{{ user.from.email }}</h4>
+		</div>
+	</div>
+</md-content>
+<md-button  class="md-fab md-fab-bottom-right" ng-click="$ctrl.addContact($event)" aria-label="Create person">
+	<md-icon md-svg-src="assets/icons/ic_add_black_24px.svg"></md-icon>
+</md-button>

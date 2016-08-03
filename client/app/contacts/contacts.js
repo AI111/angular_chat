@@ -4,6 +4,6 @@ angular.module('angularChatApp')
   .config(function ($routeProvider) {
     $routeProvider
       .when('/contacts', {
-        template: '<contacts></contacts>'
+        template: '<contacts layout="column" class="flex"></contacts>'
       });
   });

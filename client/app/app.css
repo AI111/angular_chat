@@ -4,7 +4,7 @@
  *Font Awesome Fonts
  */
 
-@font-face {
+ @font-face {
   font-family: 'FontAwesome';
   src: url('../bower_components/font-awesome/fonts/fontawesome-webfont.eot?v=4.1.0');
   src: url('../bower_components/font-awesome/fonts/fontawesome-webfont.eot?#iefix&v=4.1.0') format('embedded-opentype'),
@@ -19,7 +19,7 @@
  * App-wide Styles
  */
 
-.browserupgrade {
+ .browserupgrade {
   margin: 0.2em 0;
   background: #ccc;
   color: #000;
@@ -32,47 +32,18 @@
     max-width: 730px;
   }
 }
-.btn {
-  display: inline-block;
-  padding: 6px 12px;
-  margin-bottom: 0;
-  font-size: 14px;
-  font-weight: normal;
-  line-height: 1.42857143;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -ms-touch-action: manipulation;
-      touch-action: manipulation;
-  cursor: pointer;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-  background-image: none;
-  border: 1px solid transparent;
-  border-radius: 4px;
+.change-my-css{
+  overflow: hidden;
+}
+contacts{
+  overflow-y: scroll;
+}
+.contacts-grid{
+  //background-color: red;
+  widows: 300px;
 }
 
-.btn:focus,
-.btn:active:focus,
-.btn.active:focus,
-.btn.focus,
-.btn:active.focus,
-.btn.active.focus {
-  outline: 5px auto -webkit-focus-ring-color;
-  outline-offset: -2px;
-}
-.btn:hover,
-.btn:focus,
-.btn.focus {
-  color: #333;
-  text-decoration: none;
-}
-.btn:active,
-.btn.active {
-  background-image: none;
-  outline: 0;
-  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
-          box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+.contacts-grid img{
+  width: 40%;
+  height: auto;
 }

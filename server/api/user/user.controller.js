@@ -78,9 +78,18 @@ export function getContacts(req, res, next) {
   .catch(err => next(err));
 }
 export function getInvites(req, res, next) {
-var userId = req.user._id;
+  var userId = req.user._id;
   debug('getInvites',userId);
-  return User.findById(userId).populate('invites','_id name email img').exec()
+  return User.findById(userId,'invites')
+  .populate({
+    path:'invites',
+    model: 'Invite',
+     select: '-to',
+    populate: {
+      path: 'from',
+      select: 'name email img',
+    }
+  }).exec()
   .then(user => {
     if (!user) {
       return res.status(404).end();
