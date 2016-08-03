@@ -6,6 +6,7 @@
  'use strict';
  import Thing from '../api/thing/thing.model';
  import User from '../api/user/user.model';
+import Invite from '../api/user/user.invite.model';
 
  Thing.find({}).remove()
  .then(() => {
@@ -38,7 +39,7 @@
     'and openshift subgenerators'
   });
 });
-
+  Invite.find({}).remove();
  User.find({}).remove()
  .then(() => {
   User.create(
@@ -47,13 +48,13 @@
     name: 'Test User',
     email: 'test@example.com',
     password: 'test'
-  }, 
+  },
   {
     provider: 'local',
     name: 'A test User 2',
     email: 'test2@example.com',
     password: 'test'
-  }, 
+  },
   {
     provider: 'local',
     name: 'TEST User 3',
@@ -79,8 +80,8 @@
     name: 'User 7',
     email: 'test7@example.com',
     password: 'test'
-  }, 
-  
+  },
+
 
   {
     provider: 'local',

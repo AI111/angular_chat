@@ -1,7 +1,30 @@
 <!-- <search-field></search-field>
- -->	
- <div id="contactContainer">
- 	 <md-button  class="md-fab md-fab-bottom-right" ng-click="$ctrl.addContact($event)" aria-label="Create person">
-    <md-icon md-svg-src="assets/icons/ic_add_black_24px.svg"></md-icon>
-  </md-button>
- </div>
+-->	
+<div id="contactContainer">
+	<md-toolbar class="md-hue-2">
+		<div class="md-toolbar-tools">
+			<md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">
+				<md-icon md-svg-src="/assets/icons/ic_menu_36px.svg"></md-icon>
+			</md-button>
+			<h2>
+				<span>Toolbar with Disabled/Enabled Icon Buttons</span>
+			</h2>
+			<span flex></span>
+			<md-switch  aria-label="Switch 1">
+			</md-switch>
+		</div>
+	</md-toolbar>
+	<md-list flex>
+        <md-list-item class="md-3-line" ng-repeat="user in conyacts" ng-click="null">
+          <img ng-src="{{item.face}}?{{$index}}" class="md-avatar" alt="{{item.who}}" />
+          <div class="md-list-item-text" layout="column">
+            <h3>{{ item.who }}</h3>
+            <h4>{{ item.what }}</h4>
+            <p>{{ item.notes }}</p>
+          </div>
+        </md-list-item>
+        </md-list>
+	<md-button  class="md-fab md-fab-bottom-right" ng-click="$ctrl.addContact($event)" aria-label="Create person">
+		<md-icon md-svg-src="assets/icons/ic_add_black_24px.svg"></md-icon>
+	</md-button>
+</div>

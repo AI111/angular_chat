@@ -64,11 +64,37 @@ function handleError(res, statusCode) {
   })
   .catch(err => next(err));
 }
+export function getContacts(req, res, next) {
+  var userId = req.user._id;
+  debug('getContacts',userId);
+  return User.findById(userId).populate('contacts','_id name email img').exec()
+  .then(user => {
+    if (!user) {
+      return res.status(404).end();
+    }
+    debug('getContacts',user);
+    res.json(user.contacts);
+  })
+  .catch(err => next(err));
+}
+export function getInvites(req, res, next) {
+var userId = req.user._id;
+  debug('getInvites',userId);
+  return User.findById(userId).populate('invites','_id name email img').exec()
+  .then(user => {
+    if (!user) {
+      return res.status(404).end();
+    }
+    debug('getInvites',user.invites)
+    res.json(user.invites);
+  })
+  .catch(err => next(err));
+}
 
 export function findByEmail(req, res, next) {
   var email = req.params.email;
 
-  return User.find({"email": '/'+email+'/'}).select("name email img").exec()
+  return User.find({"email": '/'+email+'/'}).select("_id name email img").exec()
   .then(users => {
     if (!users) {
       return res.status(404).end();
@@ -80,14 +106,15 @@ export function findByEmail(req, res, next) {
 
 export function findByName(req, res, next) {
   var name = req.params.name;
-  // Log.info('findByName ',name)
-  return User.find({"name": new RegExp(name, 'i')}).select("name email img").exec()
+  var userId = req.user._id;
+  debug('findByName ',name)
+  return User.find({"name": new RegExp(name, 'i')}).where({_id: {$ne: userId}}).select("_id name email img").exec()
   .then(users => {
     if (!users) {
       return res.status(404).end();
     }
     res.status(200).json(users);
-    // Log.info('findByName response',users);
+    debug('findByName response',users);
   })
   .catch(err => next(err));
 }
@@ -100,26 +127,24 @@ export function inviteUser(req, res,next){
     to:invitedUser
   });
   debug('inviteUser',newInvite);
-  // Log.debug('inviteUser',newInvite)
   newInvite.save()
-  .then(function(err) {
-    if (err) return handleError(err);
-    User.findById(userId).exec()
-      .then(user => {
-          if (user) {
-            debug('inviteUser find user ',user);
-            user.invites.push = newInvite;
-            return user.save()
-            .then(() => {
-              debug('inviteUser add invite to user ',user);
-              res.status(204).end();
-            })
-            .catch(validationError(res));
-          } else {
-            return res.status(401).end();
-          }
-      });
-    res.json({ token });
+  .then(function(invite) {
+    debug('inviteUser save invite ',invite);
+    return User.findById(invitedUser).exec()
+    .then(user => {
+      if (user) {
+        debug('inviteUser find user ',user);
+        user.invites.push(newInvite);
+        return user.save()
+        .then(() => {
+          debug('inviteUser add invite to user ',user);
+          res.status(204).end();
+        })
+        .catch(validationError(res));
+      } else {
+        return res.status(404).end();
+      }
+    }).catch(validationError(res));;
   })
   .catch(validationError(res));
 

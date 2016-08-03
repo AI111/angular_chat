@@ -40,7 +40,7 @@
     <div flex layout-margin>
      <h2>{{SearchCtrl.selectedItem.name}}</h2>
      <p>{{SearchCtrl.selectedItem.email}}</p>
-     <md-button aria-label="Open phone interactions menu" >Send invite</md-button>
+     <md-button aria-label="Open phone interactions menu" ng-click="SearchCtrl.sendInvite(SearchCtrl.selectedItem._id)">Send invite</md-button>
    </div>
    
  </div>
