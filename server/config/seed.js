@@ -41,56 +41,7 @@ Thing.find({}).remove()
     });
   });
 
-var users= [
-  {
-  provider: 'local',
-  name: 'Test User',
-  email: 'test@example.com',
-  password: 'test'
-},
-  {
-    provider: 'local',
-    name: 'A test User 2',
-    email: 'test2@example.com',
-    password: 'test'
-  },
-  {
-    provider: 'local',
-    name: 'TEST User 3',
-    email: 'test3@example.com',
-    password: 'test'
-  },
-  {
-    provider: 'local',
-    name: 'Test User 4',
-    email: 'test4@example.com',
-    password: 'test'
-  },
-  {
-    provider: 'local',
-    name: 'Tes User 5',
-    email: 'test5@example.com',
-    password: 'test'
-  },
-  {
-    provider: 'local',
-    name: 'est User 6',
-    email: 'test6@example.com',
-    password: 'test'
-  },
-  {
-    provider: 'local',
-    name: 'User 7',
-    email: 'test7@example.com',
-    password: 'test'
-  },
-  {
-    provider: 'local',
-    role: 'admin',
-    name: 'Admin',
-    email: 'admin@example.com',
-    password: 'admin'
-  }];
+
 User.find({}).remove()
   .then(() => {
     User.create([
@@ -133,6 +84,46 @@ User.find({}).remove()
       {
         provider: 'local',
         name: 'User 7',
+        email: 'test7@example.com',
+        password: 'test'
+      }, {
+        provider: 'local',
+        name: 'User 8',
+        email: 'test9@example.com',
+        password: 'test'
+      }, {
+        provider: 'local',
+        name: 'User 9',
+        email: 'test9@example.com',
+        password: 'test'
+      }, {
+        provider: 'local',
+        name: 'User 10',
+        email: 'test10@example.com',
+        password: 'test'
+      }, {
+        provider: 'local',
+        name: 'User 11',
+        email: 'test7@example.com',
+        password: 'test'
+      }, {
+        provider: 'local',
+        name: 'User 12',
+        email: 'test7@example.com',
+        password: 'test'
+      }, {
+        provider: 'local',
+        name: 'User 13',
+        email: 'test7@example.com',
+        password: 'test'
+      }, {
+        provider: 'local',
+        name: 'User 14',
+        email: 'test7@example.com',
+        password: 'test'
+      }, {
+        provider: 'local',
+        name: 'User 15',
         email: 'test7@example.com',
         password: 'test'
       },
@@ -184,9 +175,11 @@ var createInvets= function (users) {
           to:users[0]
         }
       ]).then((data)=>{
-        data.forEach(val=>users[0].invites.push(val));
-         users[0].save().then(()=>console.log('finished populating users'));
 
+        data.forEach(val=>users[0].invites.push(val));
+        for(var i=1;i<users.length;i++)users[0].contacts.push(users[i]);
+         users[0].save().then(()=>console.log('finished populating users'));
+        
       })
     });
 

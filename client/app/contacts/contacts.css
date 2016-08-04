@@ -1,6 +1,15 @@
-#contactContainer{
-	overflow: scroll;
+contacts{
+  /*overflow-y: scroll;*/
 }
 .contacts-grid{
-	background-color: red;
+  /*background-color: red;*/
+  /*widows: 300psx;*/
+  /*background-color: #2daddc;*/
+}
+
+.contacts-grid img{
+  width: 40%;
+  height: auto;
+  border-radius: 50%;
+  /*height: auto;*/
 }

@@ -17,15 +17,14 @@
 
 /**
  * App-wide Styles
- */
-
+ *
  .browserupgrade {
   margin: 0.2em 0;
   background: #ccc;
   color: #000;
   padding: 0.2em 0;
 }
-
+@import
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   .container {
@@ -35,15 +34,4 @@
 .change-my-css{
   overflow: hidden;
 }
-contacts{
-  overflow-y: scroll;
-}
-.contacts-grid{
-  //background-color: red;
-  widows: 300px;
-}
 
-.contacts-grid img{
-  width: 40%;
-  height: auto;
-}

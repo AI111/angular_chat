@@ -5,8 +5,8 @@
     constructor($mdDialog){
       this.$mdDialog=$mdDialog;
     }
-    
-    getContacts
+
+
     cancel($event) {
       this.$mdDialog.cancel();
     }
@@ -16,7 +16,8 @@
   }
 
   class ContactsComponent {
-    constructor($mdDialog,$http,$log) {
+    constructor($mdDialog,$http,$log,$mdSidenav) {
+      this.$mdSidenav=$mdSidenav('left');
       this.isGrid=false;
       this.contacts;
       this.invites;
@@ -24,6 +25,9 @@
       this.$mdDialog=$mdDialog;
       this.$http=$http;
       this.$log=$log;
+    }
+    toggleSideNav(){
+      this.$mdSidenav.toggle();
     }
     $onInit(){
       this.getContacts();
@@ -59,7 +63,7 @@
       clickOutsideToClose:true
     });
    }
-   
+
  }
  class DialogController{
   constructor($mdDialog){
