@@ -77,6 +77,32 @@ export function getContacts(req, res, next) {
   })
   .catch(err => next(err));
 }
+export function getRooms(req, res, next) {
+  var userId = req.user._id;
+  debug('getRooms',userId);
+  return User.findById(userId).populate({
+    path:'rooms',
+    model:'Room',
+    populate:[
+    {
+      path:'users',
+      select:'name'
+    },
+    {
+      path:'creator',
+      select:'name img'
+    }
+    ]
+  }).exec()
+  .then(user => {
+    if (!user) {
+      return res.status(404).end();
+    }
+    debug('getRooms',user);
+    res.json(user.rooms);
+  })
+  .catch(err => next(err));
+}
 export function getInvites(req, res, next) {
   var userId = req.user._id;
   debug('getInvites',userId);
@@ -84,7 +110,7 @@ export function getInvites(req, res, next) {
   .populate({
     path:'invites',
     model: 'Invite',
-     select: '-to',
+    select: '-to',
     populate: {
       path: 'from',
       select: 'name email img',

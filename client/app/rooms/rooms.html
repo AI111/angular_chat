@@ -1,1 +1,50 @@
-<div>This is the rooms view.</div>
+<md-toolbar class="md-hue-2" md-scroll-shrink>
+  <div class="md-toolbar-tools">
+    <md-button class="md-icon-button" aria-label="Settings" >
+      <md-icon md-svg-src="/assets/icons/ic_menu_36px.svg"></md-icon>
+    </md-button>
+    <h2>
+      <span>Toolbar with Disabled/Enabled Icon Buttons</span>
+    </h2>
+   
+  </div>
+</md-toolbar>
+
+<md-content flex>
+  <div  layout="row " layout-wrap flex >
+    <div  layout="column" class="rooms-grid-item" ng-repeat="room in $ctrl.rooms" layout-align="center center" 
+    flex="100" 
+    flex-gt-sm="50"
+    flex-gt-md="33">
+    <md-card>
+
+      <md-card-title>
+        <md-card-title-text>
+        <span class="md-headline">{{room.name}}</span>
+          <p class="md-subhead" flex>Created by: {{room.creator.name}} </p>
+          <time>{{room.created | date:'mediumDate'}}</time>
+        </md-card-title-text>
+
+        <md-card-title-media>
+          <div class="md-media-md card-media">
+            <img ng-src="{{room.creator.img}}" flex  />
+          </div>
+        </md-card-title-media>
+      </md-card-title>
+
+      <md-card-content>
+        <p class="users-list">{{room.users | usersList}}</p>
+      </md-card-content>
+
+      <md-card-actions layout="row" layout-align="end center">
+        <md-button ng-href="/chat/{{room._id}}">Action 1</md-button>
+        <md-button>Action 2</md-button>
+      </md-card-actions>
+
+    </md-card>
+  </div>
+</md-content>
+
+<md-button  class="md-fab md-fab-bottom-right" ng-click="$ctrl.addRoom($event)" aria-label="Create person">
+  <md-icon md-svg-src="assets/icons/ic_add_black_24px.svg"></md-icon>
+</md-button>

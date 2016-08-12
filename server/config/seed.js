@@ -7,7 +7,9 @@
 import Thing from '../api/thing/thing.model';
 import User from '../api/user/user.model';
 import Invite from '../api/user/user.invite.model';
+import Room from '../api/room/room.model'
 import {Schema} from 'mongoose';
+var debug = require('debug')('seed');
 
 Thing.find({}).remove()
   .then(() => {
@@ -137,10 +139,15 @@ User.find({}).remove()
     )
       .then((data) => {
         //console.log('data',data);
-        createInvets(data);
+        debug('finished populating user');
+        
+        createRooms(data).then(()=>{
+          debug('Promise then');
+          createInvits(data);
+        });
       });
   });
-var createInvets= function (users) {
+var createInvits= function (users) {
   Invite.find({}).remove()
     .then(()=>{
       Invite.create([
@@ -155,22 +162,22 @@ var createInvets= function (users) {
           to:users[0]
         },
         {
-          message:'mess 1',
+          message:'mess 3',
           from:users[2],
           to:users[0]
         },
         {
-          message:'mess 1',
+          message:'mess 4',
           from:users[3],
           to:users[0]
         },
         {
-          message:'mess 1',
+          message:'mess 5',
           from:users[4],
           to:users[0]
         },
         {
-          message:'mess 1',
+          message:'mess 6',
           from:users[5],
           to:users[0]
         }
@@ -178,9 +185,49 @@ var createInvets= function (users) {
 
         data.forEach(val=>users[0].invites.push(val));
         for(var i=1;i<users.length;i++)users[0].contacts.push(users[i]);
-         users[0].save().then(()=>console.log('finished populating users'));
-        
+         users[0].save().then(()=>debug('finished populating user Invites'));
+        debug('Rooms ' ,users[0].rooms);
       })
     });
 
+}
+var createRooms = function(users){
+    return Room.find({}).remove().then(()=>{
+     return Room.create([
+      {
+        name:'users test room 1',
+        creator:users[0],
+        users:users.slice(0,-1)
+      },
+      {
+        name:'users test room 2',
+        creator:users[0],
+        users:users.slice(0,5)
+      },
+      {
+        name:'users test room 3',
+        creator:users[0],
+        users:users.slice(0,2)
+      },
+      {
+        name:'users test room 4',
+        creator:users[0],
+        users:users.slice(0,1)
+      },
+      {
+        name:'users test room 5',
+        creator:users[0],
+        users:users.slice(0,1)
+      }
+      ]).then((data)=>{
+          data.forEach(room=>users[0].rooms.push(room));
+          debug('Rooms ' ,users[0].rooms);
+          // return new Promise((resolve, reject)=>{
+          //   users[0].save().then(()=>debug('finished populating user Rooms'));
+          // })
+            
+          
+          
+      })
+    });
 }

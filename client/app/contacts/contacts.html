@@ -28,7 +28,9 @@
   </md-list>
 
   <div ng-if="$ctrl.isGrid" layout="row" layout-wrap flex >
-    <div class="contacts-grid" layout="column" ng-repeat="user in $ctrl.contacts" layout-align="center center" flex="50" flex-gt-sm="33" flex-gt-md="25">
+    <div class="contacts-grid-item" layout="column" layout-padding ng-repeat="user in $ctrl.contacts" layout-align="center center" flex="50" flex-gt-sm="33" flex-gt-md="25" ng-style="{
+            'background': user.color
+          }">
       <img ng-src="{{user.img}}" flex  />
       <h3>{{ user.name }}</h3>
       <h4>{{ user.email }}</h4>

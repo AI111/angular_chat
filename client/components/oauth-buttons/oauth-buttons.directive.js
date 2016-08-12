@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('angularChatApp')
+angular.module('angularChatApp.oauthButtons',[])
   .directive('oauthButtons', function() {
     return {
       templateUrl: 'components/oauth-buttons/oauth-buttons.html',

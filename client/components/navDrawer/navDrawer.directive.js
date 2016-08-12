@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('angularChatApp')
+angular.module('angularChatApp.navDrawer',[])
   .directive('navDrawer', function () {
     return {
       templateUrl: 'components/navDrawer/navDrawer.html',

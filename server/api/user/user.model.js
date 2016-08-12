@@ -39,6 +39,7 @@ var UserSchema = new Schema({
   },
   contacts:[{type: Schema.Types.ObjectId,ref: 'User'}],
   invites:[{type: Schema.Types.ObjectId,ref: 'Invite'}],
+  rooms:[{type: Schema.Types.ObjectId,ref: 'Room'}],
   provider: String,
   salt: String,
   facebook: {},

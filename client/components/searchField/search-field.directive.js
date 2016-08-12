@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('angularChatApp')
+angular.module('angularChatApp.searchField',[])
   .directive('searchField', function () {
     return {
       templateUrl: 'components/searchField/search-field.html',

@@ -12,6 +12,8 @@ router.get('/me', auth.isAuthenticated(), controller.me);
 router.get('/name/:name',auth.isAuthenticated(), controller.findByName);
 router.get('/me/contacts',auth.isAuthenticated(), controller.getContacts);
 router.get('/me/invites',auth.isAuthenticated(), controller.getInvites);
+router.get('/me/rooms',auth.isAuthenticated(), controller.getRooms);
+
 
 router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
 router.get('/:id', auth.isAuthenticated(), controller.show);

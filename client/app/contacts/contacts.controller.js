@@ -16,8 +16,9 @@
   }
 
   class ContactsComponent {
-    constructor($mdDialog,$http,$log,$mdSidenav) {
+    constructor($mdDialog,$http,$log,$mdSidenav,ColorUtil) {
       this.$mdSidenav=$mdSidenav('left');
+      this.ColorUtil=ColorUtil;
       this.isGrid=false;
       this.contacts;
       this.invites;
@@ -38,6 +39,7 @@
       .then((res)=>{
         this.$log.debug('getContacts success',res.data);
         this.contacts=res.data;
+        this.contacts.forEach(user=>user.color=this.ColorUtil.randomColor());
       },(err)=>{
         this.$log.debug('getContacts error',err);
       });
@@ -65,20 +67,6 @@
    }
 
  }
- class DialogController{
-  constructor($mdDialog){
-    this.$mdDialog=$mdDialog;
-  }
-  hide(){
-    this.$mdDialog.hide();
-  };
-  cancel() {
-    this.$mdDialog.cancel();
-  };
-  answer(answer) {
-    this.$mdDialog.hide(answer);
-  };
-}
 
 angular.module('angularChatApp')
 .component('contacts', {
