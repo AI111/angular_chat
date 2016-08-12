@@ -1,6 +1,6 @@
 <md-toolbar class="md-hue-2" md-scroll-shrink>
 	<div class="md-toolbar-tools">
-		<md-button class="md-icon-button" aria-label="Settings" >
+		<md-button class="md-icon-button" aria-label="Settings" ng-click="$ctrl.toggleSideNav()">
 			<md-icon md-svg-src="/assets/icons/ic_menu_36px.svg"></md-icon>
 		</md-button>
 		<h2>
@@ -24,12 +24,8 @@
 
 
 <div class="chat-toolbar" layout="row">
-<textarea class="input" flex></textarea>
+	<textarea class="input" flex></textarea>
 	<md-button  class="md-fab"  aria-label="Create person">
 		<md-icon md-svg-src="assets/icons/ic_send_24px.svg"></md-icon>
 	</md-button>
 </div>
-<!-- </md-content> -->
-<!-- <md-button  class="md-fab md-fab-bottom-right" ng-click="$ctrl.addMessage FDFDFFD)" aria-label="Create person">
-  <md-icon md-svg-src="assets/icons/ic_add_black_24px.svg"></md-icon>
-</md-button> -->

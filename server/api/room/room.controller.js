@@ -11,6 +11,7 @@
 
 import _ from 'lodash';
 import Room from './room.model';
+var debug = require('debug')('room.controller');
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -18,6 +19,20 @@ function respondWithResult(res, statusCode) {
     if (entity) {
       res.status(statusCode).json(entity);
     }
+  };
+}
+
+function handleAccessForbidden(req,res) {
+  var userId=req.user._id;
+  debug('handleAccessForbidden userId ',userId);
+  return function(entity) {
+    debug('handleAccessForbidden users ',entity.users);
+    if (entity.users.indexOf(userId)==-1) {
+      debug('handleAccessForbidden not allow ');
+      res.status(403).end();
+      return null;
+    }
+    return entity;
   };
 }
 
@@ -61,7 +76,7 @@ function handleError(res, statusCode) {
 
 // Gets a list of Rooms
 export function index(req, res) {
-  return Room.find().exec()
+  return Room.find({},'-messages').exec()
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
@@ -69,6 +84,7 @@ export function index(req, res) {
 // Gets a single Room from the DB
 export function show(req, res) {
   return Room.findById(req.params.id).exec()
+    .then(handleAccessForbidden(req,res))
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));
