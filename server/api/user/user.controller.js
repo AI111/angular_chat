@@ -5,7 +5,7 @@ import passport from 'passport';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
 import Invite from './user.invite.model';
-var debug = require('debug')('user.controller')
+var debug = require('debug')('user.controller');
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
   return function(err) {
@@ -83,6 +83,7 @@ export function getRooms(req, res, next) {
   return User.findById(userId).populate({
     path:'rooms',
     model:'Room',
+    select:'-messages',
     populate:[
     {
       path:'users',

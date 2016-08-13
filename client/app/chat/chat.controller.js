@@ -9,25 +9,33 @@ class ChatComponent {
     this.$routeParams=$routeParams;
     this.$log=$log;
     this.messeges=[];
+    this.users=new Map();
     this.roomId;
-    
+
   }
   $onInit(){
   	this.$log.debug('Chat Component',this.$routeParams.id);
-    for(var i =1;i<20;i++){
-      this.messeges.push({text:('message '+i),creator:(i%2===0)});
-    }
     this.$log.debug('messeges',this.messeges);
     this.roomId=this.$routeParams.id;
     this.$log.debug('Room ID',this.roomId);
     this.getMessages(this.roomId);
+    this.getUsers(this.roomId);
 
   }
+  getUsers(id){
+      this.$http.get('/api/rooms/'+id+'/users')
+      .then((res)=>{
+        this.$log.debug('getUsers success',res.data);
+        res.data.forEach(user=>this.users.set(user._id,{img:user.img,name:user.name}));
+      },(err)=>{
+        this.$log.debug('getUsers error',err);
+      });
+    }
   getMessages(id){
-      this.$http.get('/api/rooms/'+id)
+      this.$http.get('/api/rooms/'+id+'/messages')
       .then((res)=>{
         this.$log.debug('getMessages success',res.data);
-        this.messeges=res.data.messages;
+        this.messeges=res.data;
       },(err)=>{
         this.$log.debug('getMessages error',err);
       });
