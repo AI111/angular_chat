@@ -9,14 +9,16 @@
 	</div>
 </md-toolbar>
 <!-- <md-content> -->
-<md-content flex class="content-list">
+<md-content id="chat-content" flex class="content-list">
 	<div class="wrapper">
 		<div id="inner" class="inner">
 			<div id="content" class="content">
-				<div ng-repeat="message in $ctrl.messeges" class="message-wrapper"  ng-class="message.creator ? 'me' : 'them'">
-					<div class="circle-wrapper animated bounceIn"></div>
-					<div class="text-wrapper animated fadeIn">{{message.text}}</div>
-				</div>
+					<div ng-repeat="message in $ctrl.messeges" class="message-wrapper"  ng-class="message.sender._id == $ctrl.currentUser._id ? 'me' : 'them'">
+						<img class="circle-wrapper animated bounceIn" ng-src="{{message.sender.img}}"></img>
+						<div class="text-wrapper animated fadeIn"><small>{{message.sender.name}}</small><p>{{message.text}}</p>
+							<time class="date">{{message.sendTime | date:'short'}}</time>
+						</div>
+					</div>
 			</div>
 		</div>
 	</div>
@@ -24,8 +26,8 @@
 
 
 <div class="chat-toolbar" layout="row">
-	<textarea class="input" flex></textarea>
-	<md-button  class="md-fab"  aria-label="Create person">
+	<textarea class="input" flex ng-model="$ctrl.message" ng-keypress="($event.which === 13) ? $ctrl.addMessage($ctrl.message):return"></textarea>
+	<md-button  class="md-fab"  aria-label="Create message" ng-click="$ctrl.addMessage($ctrl.message)">
 		<md-icon md-svg-src="assets/icons/ic_send_24px.svg"></md-icon>
 	</md-button>
 </div>

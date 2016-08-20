@@ -27,6 +27,14 @@
               icon: '/assets/icons/ic_logout_24px.svg'
             },
             {
+              title: 'Setting',
+              path: '/settings',
+               visible :()=>{
+                return this.isLoggedIn();
+              },
+              icon: '/assets/icons/ic_settings_black_24px.svg'
+            },
+            {
               title: 'Signup',
               path: '/signup',
                visible : ()=> {
