@@ -4,7 +4,7 @@
 'use strict';
 
 import config from './environment';
-
+var debug = require('debug')('socketio.js');
 // When the user disconnects.. perform this
 function onDisconnect(socket) {
 }
@@ -47,7 +47,7 @@ export default function(socketio) {
     socket.connectedAt = new Date();
 
     socket.log = function(...data) {
-      console.log(`SocketIO ${socket.nsp.name} [${socket.address}]`, ...data);
+      debug(`SocketIO ${socket.nsp.name} [${socket.address}]`, ...data);
     };
 
     // Call onDisconnect.

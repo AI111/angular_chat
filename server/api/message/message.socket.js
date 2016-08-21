@@ -5,19 +5,22 @@
 'use strict';
 
 import MessageEvents from './message.events';
+var debug = require('debug')('message.socket');
+// Model events to emit\
 
-// Model events to emit
 var events = ['save', 'remove'];
 
 export function register(socket) {
-  // Bind model events to socket events
-  for (var i = 0, eventsLength = events.length; i < eventsLength; i++) {
-    var event = events[i];
-    var listener = createListener('message:' + event, socket);
 
-    MessageEvents.on(event, listener);
-    socket.on('disconnect', removeListener(event, listener));
-  }
+  //socket.on('connection',so)
+  // Bind model events to socket events
+  // for (var i = 0, eventsLength = events.length; i < eventsLength; i++) {
+  //   var event = events[i];
+  //   var listener = createListener('message:' + event, socket);
+  //
+  //   MessageEvents.on(event, listener);
+  //   socket.on('disconnect', removeListener(event, listener));
+  // }
 }
 
 

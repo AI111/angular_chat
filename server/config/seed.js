@@ -141,8 +141,8 @@
   .then((data) => {
         //console.log('data',data);
         debug('finished populating user');
-        
-        createRooms(data).then(()=>{         
+
+        createRooms(data).then(()=>{
           createInvits(data).then(()=>{
 
           });
@@ -222,7 +222,7 @@ var createRooms = function(users){
     }
   ];
   //roomsData[2].messages=generateMessages(roomsData[2],5);
-  roomsData.forEach(room=>{room.messages=generateMessages(room,100)});
+  roomsData.forEach(room=>{room.messages=generateMessages(room,20)});
   return Room.find({}).remove().then(()=>{
    return Room.create(roomsData).then((data)=>{
       data.forEach(room=>users[0].rooms.push(room));
@@ -237,7 +237,7 @@ var createRooms = function(users){
 var generateMessages=function(room,size){
   debug('createMessages',room.name);
   // return Message.find({}).remove()
-  // .then(()=>{ 
+  // .then(()=>{
     var messagesLenght=size||100;
     var messagees = [];
     for(var i = 0;i<messagesLenght;i++){
@@ -251,4 +251,4 @@ var generateMessages=function(room,size){
   //     debug('Messages ' ,messagees.length);
   //   });
   // });
-}  
+}

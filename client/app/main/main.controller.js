@@ -4,21 +4,21 @@
 
   class MainController {
 
-    constructor($http, $scope,socket) {
+    constructor($http, $scope) {
       this.$http = $http;
       this.socket = socket;
       this.awesomeThings = [];
 
-      $scope.$on('$destroy', function() {
-        socket.unsyncUpdates('thing');
-      });
+      // $scope.$on('$destroy', function() {
+      //   socket.unsyncUpdates('thing');
+      // });
     }
 
     $onInit() {
       this.$http.get('/api/things')
         .then(response => {
           this.awesomeThings = response.data;
-          this.socket.syncUpdates('thing', this.awesomeThings);
+         // this.socket.syncUpdates('thing', this.awesomeThings);
         });
     }
 
