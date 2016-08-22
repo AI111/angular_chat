@@ -3,14 +3,15 @@
 
   class ChatComponent {
     constructor($routeParams,$log,$mdSidenav,$http,Auth,$timeout,socket) {
-      this.$mdSidenav=$mdSidenav('left');
+      this.$mdSidenav=$mdSidenav;
       this.$http=$http;
       this.message = 'Hello';
       this.$routeParams=$routeParams;
       this.$log=$log;
       this.messeges=[];
       this.message='';
-      this.users=new Map();
+      this.usersMap=new Map();
+      this.users=new Array();
       this.roomId;
       this.Auth=Auth;
       this.currentUser = Auth.getCurrentUser();
@@ -29,7 +30,10 @@
       this.$log.debug('Auth token ',this.Auth.getToken());
       this.$log.debug('cocket',this.socket);
       this.joinRoom(this.roomId);
-
+      console.log(this.$mdSidenav);
+      this.leftSideNav=this.$mdSidenav('left');
+      this.rightSideNav=this.$mdSidenav('right');
+      this.setListeners();
     }
     joinRoom(room_id){
       this.socket.emit('connect to room',room_id,(data)=>{
@@ -38,7 +42,7 @@
     }
     setListeners(){
       this.socket.on('add msg',msg=>{
-        this.$log.debug('connected to room',msg);
+        this.$log.debug('add msg',msg);
       });
       this.socket.on('room error',msg=>{
         this.$log.debug('room error',msg);
@@ -51,9 +55,11 @@
       });
     }
     sendMessage(msg){
-      this.socket.socket.emit('add msg',msg,(status,resp)=>{
-        this.$log.debug('add msg',status,resp);
-        this.messeges.push(resp);
+      this.socket.emit('broadcast msg',msg,(status,resp)=>{
+        this.$log.debug('broadcast msg',status,resp);
+        let msg = resp;
+        msg.sender={_id:resp.sender,name:this.usersMap.get(resp.sender).name,img:this.usersMap.get(resp.sender).img}
+        this.messeges.push(msg);
       })
     }
 
@@ -63,8 +69,9 @@
       this.$http.get('/api/rooms/'+id+'/users')
         .then((res)=>{
           this.$log.debug('getUsers success',res.data);
-          res.data.forEach(user=>this.users.set(user._id,user));
-          this.$log.debug('Map',this.users);
+          res.data.forEach(user=>this.usersMap.set(user._id,user));
+          this.$log.debug('Map',this.usersMap);
+          this.users=res.data;
           this.getMessages(id);
         },(err)=>{
           this.$log.debug('getUsers error',err);
@@ -74,7 +81,7 @@
       this.$http.get('/api/rooms/'+id+'/messages')
         .then((res)=>{
           this.messeges=res.data;
-          this.messeges.forEach(msg=>{msg.sender=this.users.get(msg.sender)});
+          this.messeges.forEach(msg=>{msg.sender=this.usersMap.get(msg.sender)});
           this.$log.debug('getMessages success',this.messeges);
         },(err)=>{
           this.$log.debug('getMessages error',err);
@@ -99,8 +106,14 @@
       }
     }
     toggleSideNav(){
-      this.$mdSidenav.toggle();
+      this.leftSideNav.toggle();
     }
+    toggleRightSideNav(){
+      this.rightSideNav=this.$mdSidenav('right');
+      this.$log.debug('toggleRightSideNav',this.rightSideNav)
+      this.rightSideNav.toggle();
+    }
+
   }
 
   angular.module('angularChatApp')

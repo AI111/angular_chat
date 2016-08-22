@@ -13,7 +13,7 @@ var events = ['save', 'remove'];
 
 export function register(socket) {
   // Bind model events to socket events
-  let current_room;
+  var current_room;
   socket.on('connect to room',(room_id,clb)=>{
     debug('connect to room '+room_id,socket.decoded_token);
     Room.findById(room_id).exec()
@@ -28,12 +28,15 @@ export function register(socket) {
       .catch(handleError(socket));
   });
 
-  socket.on('add msg',(msg,clb)=>{
+  socket.on('broadcast msg',(msg,clb)=>{
     if(current_room)
     Room.findById(current_room).exec().then(room=>{
       room.messages.push(new Message({text:msg,sender:socket.decoded_token._id}));
       room.save().then(updated=>{
-        clb('msg saved',updated.messages[updated.messages.length-1]);
+        let message = updated.messages[updated.messages.length-1];
+        clb('msg saved',message);
+        debug('broadcast msg',message);
+        socket.broadcast.to(current_room).emit('add msg',message);
       })
     }).catch(err=>{
         debug('add msg err',err);
@@ -44,7 +47,7 @@ export function register(socket) {
 function handleError(socket, statusCode) {
   statusCode = statusCode || 500;
   return function(err) {
-    socket.emmit('room error',err);
+    socket.emit('room error',err);
     debug('handleError',err);
   };
 }

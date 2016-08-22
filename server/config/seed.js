@@ -188,6 +188,7 @@
       data.forEach(val=>users[0].invites.push(val));
       for(var i=1;i<users.length;i++)users[0].contacts.push(users[i]);
        users[0].save().then(()=>debug('finished populating user Invites'));
+        users[1].save().then(()=>debug('finished populating user Invites'));
      debug('Rooms ' ,users[0].rooms);
    })
   });
@@ -225,7 +226,9 @@ var createRooms = function(users){
   roomsData.forEach(room=>{room.messages=generateMessages(room,20)});
   return Room.find({}).remove().then(()=>{
    return Room.create(roomsData).then((data)=>{
-      data.forEach(room=>users[0].rooms.push(room));
+      data.forEach(room=>{
+        users.forEach(u=>u.rooms.push(room));
+      });
       debug('Rooms ' ,users[0].rooms);
           // return new Promise((resolve, reject)=>{
           //   users[0].save().then(()=>debug('finished populating user Rooms'));

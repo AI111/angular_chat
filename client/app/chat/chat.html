@@ -1,33 +1,60 @@
-<md-toolbar class="md-hue-2" md-scroll-shrink>
-	<div class="md-toolbar-tools">
-		<md-button class="md-icon-button" aria-label="Settings" ng-click="$ctrl.toggleSideNav()">
-			<md-icon md-svg-src="/assets/icons/ic_menu_36px.svg"></md-icon>
-		</md-button>
-		<h2>
-			<span>Toolbar with Disabled/Enabled Icon Buttons</span>
-		</h2>
-	</div>
-</md-toolbar>
-<!-- <md-content> -->
-<md-content id="chat-content" flex class="content-list">
-	<div class="wrapper">
-		<div id="inner" class="inner">
-			<div id="content" class="content">
+
+<div flex class="chat" layout="column">
+	<md-toolbar class="md-hue-2" md-scroll-shrink>
+		<div class="md-toolbar-tools">
+			<md-button class="md-icon-button" aria-label="Settings" ng-click="$ctrl.toggleSideNav()">
+				<md-icon md-svg-src="/assets/icons/ic_menu_36px.svg"></md-icon>
+			</md-button>
+			<h2>
+				<span>Chat</span>
+			</h2>
+			<span flex></span>
+			<md-button class="md-icon-button" aria-label="More" ng-click="$ctrl.toggleRightSideNav()">
+				<md-icon md-svg-icon="/assets/icons/ic_people_black_24px.svg"></md-icon>
+			</md-button>
+		</div>
+	</md-toolbar>
+	<!-- <md-content> -->
+	<md-content id="chat-content" flex class="content-list">
+		<div class="wrapper">
+			<div id="inner" class="inner">
+				<div id="content" class="content">
 					<div ng-repeat="message in $ctrl.messeges" class="message-wrapper"  ng-class="message.sender._id == $ctrl.currentUser._id ? 'me' : 'them'">
 						<img class="circle-wrapper animated bounceIn" ng-src="{{message.sender.img}}"></img>
 						<div class="text-wrapper animated fadeIn"><small>{{message.sender.name}}</small><p>{{message.text}}</p>
 							<time class="date">{{message.sendTime | date:'short'}}</time>
 						</div>
 					</div>
+				</div>
 			</div>
 		</div>
+	</md-content>
+
+
+	<div class="chat-toolbar" layout="row">
+		<textarea class="input" flex ng-model="$ctrl.message" ng-keypress="($event.which === 13) ? $ctrl.addMessage($ctrl.message):return"></textarea>
+		<md-button  class="md-fab"  aria-label="Create message" ng-click="$ctrl.addMessage($ctrl.message)">
+			<md-icon md-svg-src="assets/icons/ic_send_24px.svg"></md-icon>
+		</md-button>
 	</div>
-</md-content>
-
-
-<div class="chat-toolbar" layout="row">
-	<textarea class="input" flex ng-model="$ctrl.message" ng-keypress="($event.which === 13) ? $ctrl.addMessage($ctrl.message):return"></textarea>
-	<md-button  class="md-fab"  aria-label="Create message" ng-click="$ctrl.addMessage($ctrl.message)">
-		<md-icon md-svg-src="assets/icons/ic_send_24px.svg"></md-icon>
-	</md-button>
 </div>
+<md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right" md-is-locked-open="$mdMedia('gt-md')">
+	<md-toolbar class="md-theme-light">
+		<h1 class="md-toolbar-tools">Users</h1>
+	</md-toolbar>
+	<md-content layout-padding>
+		<md-list >
+			<md-list-item class="md-3-line" ng-repeat="user in $ctrl.users" ng-click="null">
+				<img ng-src="{{user.img}}" alt="{{user.name}}" class="md-avatar">
+				<div class="md-list-item-text">
+					<h3>{{user.name}}</h3>
+					<h4>{{user.email}}</h4>
+					<p>
+						{{'098000000'}}
+					</p>
+				</div>
+				<md-divider inset></md-divider>
+			</md-list-item>
+		</md-list>
+	</md-content>
+</md-sidenav>
