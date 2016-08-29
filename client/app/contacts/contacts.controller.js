@@ -2,9 +2,9 @@
 (function(){
 
   class DialogCtrl  {
-    constructor($mdDialog,$http){
+    constructor($mdDialog){
       this.$mdDialog=$mdDialog;
-      this.$http=$http;
+
     }
     cancel($event) {
       this.$mdDialog.cancel();

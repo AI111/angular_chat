@@ -9,10 +9,12 @@
       this.$log.debug('RoomDialogCtrl',Room);
       this.asyncContacts  = new Array();
       this.name='';
+      this.acceptName='Create';
       this.filterSelected = true;
       if (Room) {
         this.name=Room.name;
         this.asyncContacts=Room.users;
+        this.acceptName='Update';
       }
     }
 
@@ -53,16 +55,19 @@
   }
 
   class RoomsComponent {
-    constructor($http,$log,$mdDialog,$mdMedia) {
+    constructor($http,$log,$mdDialog,$mdMedia,Auth) {
       this.$http=$http;
       this.$log=$log;
       this.rooms;
       this.$mdDialog=$mdDialog;
       this.$mdMedia=$mdMedia;
       this.customFullscreen = false;
+      this.currentUser = Auth.getCurrentUser();
+
 
     }
     $onInit(){
+      this.$log.debug('currentUser',this.currentUser);
      this.getRooms();
      this.customFullscreen=this.$mdMedia('sm');
    }
@@ -97,16 +102,17 @@
       clickOutsideToClose:true,
       fullscreen: true // Only for -xs, -sm breakpoints.
     })
-    .then(function(answer) {
+    .then((answer)=> {
       // $scope.status = 'You said the information was "' + answer + '".';
-      console.log('addRoom answer',answer);
-      $http.post('/api/rooms',answer).then(res=>{
-        console.log('ans ',res);
-        // rooms.push(r)
+      this.$log.debug('addRoom answer',answer);
+      this.$http.post('/api/rooms',answer)
+      .then(res=>{
+        this.$log.log('response ',res);
+         this.rooms.push(res.data);
       },err=>{
 
       })
-    }, function() {
+    }, ()=> {
       // $scope.status = 'You cancelled the dialog.';
     });
   }
@@ -126,6 +132,25 @@
       // $scope.status = 'You said the information was "' + answer + '".';
     }, function() {
       // $scope.status = 'You cancelled the dialog.';
+    });
+  }
+  deleteRoom(ev,room){
+    let confirm = this.$mdDialog.confirm()
+          .title('Would you like to delete this Room')
+          // .textContent('All of the banks have agreed to forgive you your debts.')
+          .ariaLabel('Lucky day')
+          .targetEvent(ev)
+          .ok('Delete')
+          .cancel('Cancel');
+    this.$mdDialog.show(confirm).then(()=> {
+      this.$http.delete('/api/room/' + room._id)
+      .then(res=>{
+        this.$log.debug('deleteRoom res',res)
+      },err=>{
+        this.$log.debug('deleteRoom err',err)
+      })
+    }, ()=> {
+
     });
   }
 }

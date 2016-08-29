@@ -38,7 +38,10 @@
 
       <md-card-actions layout="row" layout-align="end center">
         <md-button ng-href="/chat/{{room._id}}">Open</md-button>
-        <md-button ng-click="$ctrl.editRoom($event,room)">Edit</md-button>
+        <md-button ng-show="room.creator._id===$ctrl.currentUser._id" ng-click="$ctrl.editRoom($event,room)" ng-disabled="true">Edit</md-button>
+        <md-button ng-show="room.creator._id===$ctrl.currentUser._id" ng-click="$ctrl.deleteRoom($event,room)" >Delete</md-button>
+        <md-button ng-show="!room.creator._id===$ctrl.currentUser._id" ng-click="$ctrl.editRoom($event,room)" ng-disabled="true">Leave</md-button>
+
       </md-card-actions>
 
     </md-card>

@@ -44,6 +44,18 @@ function handleAccessForbidden(req,res) {
     return entity;
   };
 }
+function handleAccessCreator(req,res) {
+  var userId=req.user._id;
+  debug('handleAccessCreator userId ',userId);
+  return function(entity) {
+      if (entity.creator != userId) {
+        debug('handleAccessCreator access deny',entity);
+        res.status(403).end();
+        return null;
+      }
+    return entity;
+  };
+}
 
 function saveUpdates(updates) {
   return function(entity) {
@@ -145,7 +157,7 @@ export function create(req, res) {
 
         if (!err) {
           debug('save updates',result);
-          Room.populate(room,{path: 'users', model: 'User',select:'name' }, (err, new_room)=>{
+          Room.populate(room,[{path: 'users', model: 'User',select:'name' },{path: 'creator', model: 'User',select:'name img'}], (err, new_room)=>{
             if(err) return res.status(500).send(err);
             res.status(201).json(new_room);
           });
@@ -186,7 +198,14 @@ export function update(req, res) {
 // Deletes a Room from the DB
 export function destroy(req, res) {
   return Room.findById(req.params.id).exec()
+    .then(handleAccessCreator(res))
     .then(handleEntityNotFound(res))
+    .then(room=>{
+      User.update({'_id':{$in:room.users}},{$pull: {rooms: room._id}}, {multi: true}, (err, result)=>{
+        if(err)throw err;
+        return room;
+      });
+    })
     .then(removeEntity(res))
     .catch(handleError(res));
 }
