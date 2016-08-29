@@ -154,37 +154,62 @@ export function findByName(req, res, next) {
   })
   .catch(err => next(err));
 }
-export function inviteUser(req, res,next){
-  var invitedUser=req.params.user_id;
+export function findContactByName(req, res, next) {
+  var name = req.params.name;
   var userId = req.user._id;
-  var newInvite = new  Invite({
-    message:'Add friend',
-    from:userId,
-    to:invitedUser
-  });
-  debug('inviteUser',newInvite);
-  newInvite.save()
-  .then(function(invite) {
-    debug('inviteUser save invite ',invite);
-    return User.findById(invitedUser).exec()
-    .then(user => {
-      if (user) {
-        debug('inviteUser find user ',user);
-        user.invites.push(newInvite);
-        return user.save()
-        .then(() => {
-          debug('inviteUser add invite to user ',user);
-          res.status(204).end();
-        })
-        .catch(validationError(res));
-      } else {
-        return res.status(404).end();
+  debug('findContactByName ',name)
+  return User.findOne({ _id: userId }, 'contacts').exec()
+    .then(user => { // don't ever give out the password or salt
+      if (!user) {
+        return res.status(401).end();
       }
-    }).catch(validationError(res));;
-  })
-  .catch(validationError(res));
+      return User.find({
+        "name": new RegExp(name, 'i'),
+        '_id': { $in:user.contacts}
+      }).select("_id name email img").exec()
+      .then(users => {
+        if (!users) {
+          return res.status(404).end();
+        }
+        res.status(200).json(users);
+        debug('findByName response',users);
+      })
+      .catch(err => next(err));
+    })
+    .catch(err => next(err));
 
-}
+  }
+  export function inviteUser(req, res,next){
+    var invitedUser=req.params.user_id;
+    var userId = req.user._id;
+    var newInvite = new  Invite({
+      message:'Add friend',
+      from:userId,
+      to:invitedUser
+    });
+    debug('inviteUser',newInvite);
+    newInvite.save()
+    .then(function(invite) {
+      debug('inviteUser save invite ',invite);
+      return User.findById(invitedUser).exec()
+      .then(user => {
+        if (user) {
+          debug('inviteUser find user ',user);
+          user.invites.push(newInvite);
+          return user.save()
+          .then(() => {
+            debug('inviteUser add invite to user ',user);
+            res.status(204).end();
+          })
+          .catch(validationError(res));
+        } else {
+          return res.status(404).end();
+        }
+      }).catch(validationError(res));;
+    })
+    .catch(validationError(res));
+
+  }
 /**
  * Deletes a user
  * restriction: 'admin'

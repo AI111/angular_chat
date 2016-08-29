@@ -11,6 +11,7 @@
 
 import _ from 'lodash';
 import Room from './room.model';
+import User from '../user/user.model'
 var debug = require('debug')('room.controller');
 
 function respondWithResult(res, statusCode) {
@@ -127,8 +128,46 @@ export function getMessages(req, res) {
 
 // Creates a new Room in the DB
 export function create(req, res) {
-  return Room.create(req.body)
-    .then(respondWithResult(res, 201))
+  var room = req.body;
+  room.creator=req.user._id;
+
+  if (room.users) {
+    room.users.push(req.user._id)
+  }else{
+    room.users=[req.user._id]
+  }
+  debug('create room',room, ' user: ',req.user._id);
+
+
+  return Room.create(room)
+    .then(room=>{
+      User.update({'_id':{$in:room.users}},{$push: {rooms: room._id}}, {multi: true}, (err, result)=>{
+
+        if (!err) {
+          debug('save updates',result);
+          Room.populate(room,{path: 'users', model: 'User',select:'name' }, (err, new_room)=>{
+            if(err) return res.status(500).send(err);
+            res.status(201).json(new_room);
+          });
+        }else{return res.status(500).send(err)}
+
+      } )
+
+      // User.find({'_id':{$in:room.users}}).exec()
+      //   .then(users=>{
+      //     users.forEach(user=>user.rooms.push(room));
+      //     users.save().then(u=>{
+      //       debug('save updates',u);
+      //       room.populate('users').exec()
+      //         .then(r=>res.status(201).json(r))
+      //
+      //
+      //     })
+      //   }).catch(err=>{
+      //
+      // });
+    })
+    // .then(respondWithResult(res, 201))
     .catch(handleError(res));
 }
 

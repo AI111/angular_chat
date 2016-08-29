@@ -11,6 +11,8 @@ router.delete('/:id', auth.hasRole('admin'), controller.destroy);
 router.get('/me', auth.isAuthenticated(), controller.me);
 router.get('/name/:name',auth.isAuthenticated(), controller.findByName);
 router.get('/me/contacts',auth.isAuthenticated(), controller.getContacts);
+router.get('/me/contacts/:name',auth.isAuthenticated(), controller.findContactByName);
+
 router.get('/me/invites',auth.isAuthenticated(), controller.getInvites);
 router.get('/me/rooms',auth.isAuthenticated(), controller.getRooms);
 

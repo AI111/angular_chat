@@ -2,11 +2,10 @@
 (function(){
 
   class DialogCtrl  {
-    constructor($mdDialog){
+    constructor($mdDialog,$http){
       this.$mdDialog=$mdDialog;
+      this.$http=$http;
     }
-
-
     cancel($event) {
       this.$mdDialog.cancel();
     }
@@ -62,6 +61,7 @@
       templateUrl: 'app/contacts/dialog.html',
       parent: angular.element(document.body),//angular.element(document.querySelector('#contactContainer')),
       targetEvent: ev,
+      fullscreen: true,
       clickOutsideToClose:true
     });
    }

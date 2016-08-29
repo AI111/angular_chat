@@ -6,6 +6,8 @@
 import config from './environment';
 var debug = require('debug')('socketio.js');
 // When the user disconnects.. perform this
+var rooms = new Map();
+
 function onDisconnect(socket) {
 }
 
@@ -18,7 +20,7 @@ function onConnect(socket) {
 
   // Insert sockets below
 
-  require('../api/room/room.socket').register(socket);
+  require('../api/room/room.socket').register(socket,rooms);
   require('../api/message/message.socket').register(socket);
   require('../api/thing/thing.socket').register(socket);
 

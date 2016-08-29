@@ -10,38 +10,54 @@ import Message from '../message/message.model';
 var debug = require('debug')('room.socket');
 // Model events to emit
 var events = ['save', 'remove'];
-
-export function register(socket) {
+export function register(socket,rooms) {
   // Bind model events to socket events
   var current_room;
   socket.on('connect to room',(room_id,clb)=>{
-    debug('connect to room '+room_id,socket.decoded_token);
+    debug('connect to room ',room_id,socket.decoded_token);
+    debug('connect to room rooms',rooms);
+
     Room.findById(room_id).exec()
       .then(handleAccessForbidden(socket))
       .then(handleEntityNotFound(socket))
       .then(room=>{
         socket.join(room_id);
-        clb('connect success');
         current_room=room_id;
+        if(!rooms.has(room_id))rooms.set(room_id,{
+          online_users:new Array(),
+          online_users_map:new Map()
+        });
+        var room = rooms.get(room_id);
+        debug('connect clients to room',room_id,room);
+        clb(room);
+
+        room.online_users.push({socket_id:socket.id,room_id:socket.decoded_token._id});
+        room.online_users_map.set(socket.decoded_token._id,socket.id);
         socket.broadcast.to(room_id).emit('user connect',socket.decoded_token._id);
+        // debug('connected clients',socket.clients(room_id));
       })
       .catch(handleError(socket));
   });
+  socket.on('disconnect',()=>{
+    debug('disconect',socket.id);
 
+    if(rooms.has(current_room)){
+      rooms.get(current_room).online_users.splice(socket.id,1);}
+  });
   socket.on('broadcast msg',(msg,clb)=>{
     if(current_room)
-    Room.findById(current_room).exec().then(room=>{
-      room.messages.push(new Message({text:msg,sender:socket.decoded_token._id}));
-      room.save().then(updated=>{
-        let message = updated.messages[updated.messages.length-1];
-        clb('msg saved',message);
-        debug('broadcast msg',message);
-        socket.broadcast.to(current_room).emit('add msg',message);
-      })
-    }).catch(err=>{
+      Room.findById(current_room).exec().then(room=>{
+        room.messages.push(new Message({text:msg,sender:socket.decoded_token._id}));
+        room.save().then(updated=>{
+          let message = updated.messages[updated.messages.length-1];
+          clb('msg saved',message);
+          debug('broadcast msg',message);
+          socket.broadcast.to(current_room).emit('add msg',message);
+        })
+      }).catch(err=>{
         debug('add msg err',err);
         socket.emmit('room error',err);
-    });
+      });
   });
 }
 function handleError(socket, statusCode) {

@@ -6,7 +6,7 @@
     <h2>
       <span>Toolbar with Disabled/Enabled Icon Buttons</span>
     </h2>
-   
+
   </div>
 </md-toolbar>
 
@@ -20,7 +20,7 @@
 
       <md-card-title>
         <md-card-title-text>
-        <span class="md-headline">{{room.name}}</span>
+          <span class="md-headline">{{room.name}}</span>
           <p class="md-subhead" flex>Created by: {{room.creator.name}} </p>
           <time>{{room.created | date:'mediumDate'}}</time>
         </md-card-title-text>
@@ -37,14 +37,15 @@
       </md-card-content>
 
       <md-card-actions layout="row" layout-align="end center">
-        <md-button ng-href="/chat/{{room._id}}">Action 1</md-button>
-        <md-button>Action 2</md-button>
+        <md-button ng-href="/chat/{{room._id}}">Open</md-button>
+        <md-button ng-click="$ctrl.editRoom($event,room)">Edit</md-button>
       </md-card-actions>
 
     </md-card>
   </div>
+</div>
 </md-content>
 
-<md-button  class="md-fab md-fab-bottom-right" ng-click="$ctrl.addRoom($event)" aria-label="Create person">
+<md-button  class="md-fab md-fab-bottom-right" ng-click="$ctrl.addRoom($event)" aria-label="Create room">
   <md-icon md-svg-src="assets/icons/ic_add_black_24px.svg"></md-icon>
 </md-button>

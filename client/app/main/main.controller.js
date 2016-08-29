@@ -6,7 +6,7 @@
 
     constructor($http, $scope) {
       this.$http = $http;
-      this.socket = socket;
+      // this.socket = socket;
       this.awesomeThings = [];
 
       // $scope.$on('$destroy', function() {

@@ -28,7 +28,6 @@
       this.getUsers(this.roomId);
       this.$log.debug('currentUser',this.currentUser);
       this.$log.debug('Auth token ',this.Auth.getToken());
-      this.$log.debug('cocket',this.socket);
       this.joinRoom(this.roomId);
       console.log(this.$mdSidenav);
       this.leftSideNav=this.$mdSidenav('left');
@@ -36,12 +35,16 @@
       this.setListeners();
     }
     joinRoom(room_id){
-      this.socket.emit('connect to room',room_id,(data)=>{
-        this.$log.debug('connect to room clb',data);
+      this.socket.emit('connect to room',room_id,(conected_users)=>{
+        this.$log.debug('connect to room clb',conected_users);
       });
+      this.socket.emit('get users',(conected_users)=>{
+        this.$log.debug('get users',conected_users);
+      })
     }
     setListeners(){
       this.socket.on('add msg',msg=>{
+        this.reciveMessage(msg);
         this.$log.debug('add msg',msg);
       });
       this.socket.on('room error',msg=>{
@@ -57,10 +60,13 @@
     sendMessage(msg){
       this.socket.emit('broadcast msg',msg,(status,resp)=>{
         this.$log.debug('broadcast msg',status,resp);
-        let msg = resp;
-        msg.sender={_id:resp.sender,name:this.usersMap.get(resp.sender).name,img:this.usersMap.get(resp.sender).img}
-        this.messeges.push(msg);
+        this.messeges.push(this.transformMessage(resp));
+        this.scroll(this.msgList);
       })
+    }
+    reciveMessage(msg){
+      this.messeges.push(this.transformMessage(msg));
+      this.scroll(this.msgList);
     }
 
 
@@ -87,6 +93,11 @@
           this.$log.debug('getMessages error',err);
         });
     }
+    transformMessage(message){
+      let result = message;
+        result.sender={_id:message.sender,name:this.usersMap.get(message.sender).name,img:this.usersMap.get(message.sender).img}
+      return result
+    }
     scroll(list){
       this.$timeout(function() {
         console.log('timeout');
@@ -100,9 +111,6 @@
       if(msg.length>0){
         this.sendMessage(msg);
         this.message='';
-        this.scroll(this.msgList);
-
-
       }
     }
     toggleSideNav(){
