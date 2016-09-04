@@ -11,12 +11,9 @@
 </md-toolbar>
 
 <md-content flex>
-  <div  layout="row " layout-wrap flex >
-    <div  layout="column" class="rooms-grid-item" ng-repeat="room in $ctrl.rooms" layout-align="center center" 
-    flex="100" 
-    flex-gt-sm="50"
-    flex-gt-md="33">
-    <md-card>
+  <div  layout="row " layout-wrap flex class="card-grid" >
+    
+    <md-card class="rooms-grid-item card" ng-repeat="room in $ctrl.rooms">
 
       <md-card-title>
         <md-card-title-text>
@@ -40,12 +37,11 @@
         <md-button ng-href="/chat/{{room._id}}">Open</md-button>
         <md-button ng-show="room.creator._id===$ctrl.currentUser._id" ng-click="$ctrl.editRoom($event,room)" ng-disabled="true">Edit</md-button>
         <md-button ng-show="room.creator._id===$ctrl.currentUser._id" ng-click="$ctrl.deleteRoom($event,room)" >Delete</md-button>
-        <md-button ng-show="!room.creator._id===$ctrl.currentUser._id" ng-click="$ctrl.editRoom($event,room)" ng-disabled="true">Leave</md-button>
+        <md-button ng-show="room.creator._id!==$ctrl.currentUser._id" ng-click="$ctrl.leaveRoom($event,room)" >Leave</md-button>
 
       </md-card-actions>
 
     </md-card>
-  </div>
 </div>
 </md-content>
 

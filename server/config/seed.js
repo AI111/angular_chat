@@ -6,7 +6,7 @@
  'use strict';
  import Thing from '../api/thing/thing.model';
  import User from '../api/user/user.model';
- import Invite from '../api/user/user.invite.model';
+ import Invite from '../api/invite/invite.model';
  import Room from '../api/room/room.model'
  import {Schema} from 'mongoose';
  import Message from '../api/message/message.model';

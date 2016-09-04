@@ -4,7 +4,7 @@ import User from './user.model';
 import passport from 'passport';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
-import Invite from './user.invite.model';
+import Invite from '../invite/invite.model';
 var debug = require('debug')('user.controller');
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;

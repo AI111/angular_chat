@@ -20,7 +20,5 @@ router.get('/me/rooms',auth.isAuthenticated(), controller.getRooms);
 router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
 router.get('/:id', auth.isAuthenticated(), controller.show);
 router.post('/', controller.create);
-router.post('/invite/:user_id',auth.isAuthenticated(),controller.inviteUser)
-
 
 module.exports = router;

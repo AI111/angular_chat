@@ -23,7 +23,7 @@ function respondWithResult(res, statusCode) {
   };
 }
 
-function handleAccessForbidden(req,res) {
+function handleAccessгUsers(req,res) {
   var userId=req.user._id;
   debug('handleAccessForbidden userId ',userId);
   return function(entity) {
@@ -48,7 +48,7 @@ function handleAccessCreator(req,res) {
   var userId=req.user._id;
   debug('handleAccessCreator userId ',userId);
   return function(entity) {
-      if (entity.creator != userId) {
+    if (!userId.equals(entity.creator)) {
         debug('handleAccessCreator access deny',entity);
         res.status(403).end();
         return null;
@@ -105,7 +105,7 @@ export function index(req, res) {
 // Gets a single Room from the DB
 export function show(req, res) {
   return Room.findById(req.params.id).exec()
-    .then(handleAccessForbidden(req,res))
+    .then(handleAccessгUsers(req,res))
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));
@@ -126,7 +126,7 @@ export function getUsers(req, res) {
 export function getMessages(req, res) {
   debug('getMessages',req.params.id);
   return Room.findById(req.params.id).exec()
-    .then(handleAccessForbidden(req,res))
+    .then(handleAccessгUsers(req,res))
     .then(handleEntityNotFound(res))
     .then( (room)=>{
       // debug('getMessages room',room);
@@ -140,6 +140,7 @@ export function getMessages(req, res) {
 
 // Creates a new Room in the DB
 export function create(req, res) {
+  debug('create',req)
   var room = req.body;
   room.creator=req.user._id;
 
@@ -155,29 +156,13 @@ export function create(req, res) {
     .then(room=>{
       User.update({'_id':{$in:room.users}},{$push: {rooms: room._id}}, {multi: true}, (err, result)=>{
 
-        if (!err) {
+        if (err) return res.status(500).send(err)
           debug('save updates',result);
           Room.populate(room,[{path: 'users', model: 'User',select:'name' },{path: 'creator', model: 'User',select:'name img'}], (err, new_room)=>{
             if(err) return res.status(500).send(err);
-            res.status(201).json(new_room);
+           return res.status(201).json(new_room);
           });
-        }else{return res.status(500).send(err)}
-
-      } )
-
-      // User.find({'_id':{$in:room.users}}).exec()
-      //   .then(users=>{
-      //     users.forEach(user=>user.rooms.push(room));
-      //     users.save().then(u=>{
-      //       debug('save updates',u);
-      //       room.populate('users').exec()
-      //         .then(r=>res.status(201).json(r))
-      //
-      //
-      //     })
-      //   }).catch(err=>{
-      //
-      // });
+      });
     })
     // .then(respondWithResult(res, 201))
     .catch(handleError(res));
@@ -197,15 +182,46 @@ export function update(req, res) {
 
 // Deletes a Room from the DB
 export function destroy(req, res) {
+  debug('destroy ',req.body);
   return Room.findById(req.params.id).exec()
-    .then(handleAccessCreator(res))
     .then(handleEntityNotFound(res))
+    .then(handleAccessCreator(req,res))
     .then(room=>{
-      User.update({'_id':{$in:room.users}},{$pull: {rooms: room._id}}, {multi: true}, (err, result)=>{
+
+      if(room) User.update({'_id':{$in:room.users}},{$pull: {rooms: room._id}}, {multi: true}, (err, result)=>{
         if(err)throw err;
-        return room;
       });
+      return room;
     })
     .then(removeEntity(res))
     .catch(handleError(res));
+}
+export function leave(req, res) {
+  debug('destroy ',req.params.id);
+  return Room.findById(req.params.id).exec()
+    .then(handleEntityNotFound(res))
+    .then(handleAccessгUsers(req,res))
+    .then(room=>{
+      return User.findById(req.user._id).exec()
+        .then(user=>{
+          user.rooms.remove(room._id);
+         return user.save().then(u=>{
+           room.users.remove(user._id);
+           debug('leave saved user',u);
+           return room;
+         })
+        })
+
+    })
+    .then(room=>{
+      room.save().then(savedRoom=>{
+        debug('saved room',savedRoom);
+        res.status(204).end();
+      })
+    })
+    .catch(handleError(res));
+}
+export function addMessage(req,res){
+  debug('addMessage ',req.body);
+  
 }

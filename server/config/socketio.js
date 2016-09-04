@@ -19,6 +19,7 @@ function onConnect(socket) {
   });
 
   // Insert sockets below
+  require('../api/invite/invite.socket').register(socket);
 
   require('../api/room/room.socket').register(socket,rooms);
   require('../api/message/message.socket').register(socket);

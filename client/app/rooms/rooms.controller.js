@@ -37,13 +37,13 @@
         //   $timeout(function() {
         //     resolve( self.querySearch() );
         //     refreshDebounce();
-        //   }, Math.random() * 500, true) 
+        //   }, Math.random() * 500, true)
         // });
       // }
       // return pendingSearch;
     }
 
-   
+
     cancel($event) {
       this.$log.debug('RoomDialogCtrl cancel');
       this.$mdDialog.cancel();
@@ -87,7 +87,7 @@
    }
    	// var string='';
    	// users.forEach(user=>string+=(user.name+', ')
-   	// 	return 
+   	// 	return
    }
    addRoom(ev){
    	this.$log.debug(this.rooms);
@@ -135,6 +135,7 @@
     });
   }
   deleteRoom(ev,room){
+    this.$log.debug('deleteRoom',room);
     let confirm = this.$mdDialog.confirm()
           .title('Would you like to delete this Room')
           // .textContent('All of the banks have agreed to forgive you your debts.')
@@ -143,12 +144,32 @@
           .ok('Delete')
           .cancel('Cancel');
     this.$mdDialog.show(confirm).then(()=> {
-      this.$http.delete('/api/room/' + room._id)
+      this.$http.delete('/api/rooms/' + room._id)
       .then(res=>{
         this.$log.debug('deleteRoom res',res)
       },err=>{
         this.$log.debug('deleteRoom err',err)
       })
+    }, ()=> {
+
+    });
+  }
+  leaveRoom(ev,room){
+    this.$log.debug('leaveRoom',room);
+    let confirm = this.$mdDialog.confirm()
+      .title('Would you like to leave this Room')
+      // .textContent('All of the banks have agreed to forgive you your debts.')
+      .ariaLabel('Lucky day')
+      .targetEvent(ev)
+      .ok('Leave')
+      .cancel('Cancel');
+    this.$mdDialog.show(confirm).then(()=> {
+      this.$http.delete('/api/rooms/' + room._id+'/users/me')
+        .then(res=>{
+          this.$log.debug('leaveRoom res',res)
+        },err=>{
+          this.$log.debug('leaveRoom err',err)
+        })
     }, ()=> {
 
     });

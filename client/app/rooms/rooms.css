@@ -45,3 +45,42 @@
 .rooms-grid-item .card-media {
 	background-color: #999999; 
 }*/
+
+
+
+.contactChips md-content.autocomplete {
+  min-height: 250px; }
+  .contactChips md-content.autocomplete input {
+    min-width: 400px; }
+.contactChips .md-item-text.compact {
+  padding-top: 8px;
+  padding-bottom: 8px; }
+.contactChips .contact-item {
+  box-sizing: border-box; }
+  .contactChips .contact-item.selected {
+    opacity: 0.5; }
+    .contactChips .contact-item.selected h3 {
+      opacity: 0.5; }
+  .contactChips .contact-item .md-list-item-text {
+    padding: 14px 0;
+    max-width: 190px; }
+    .contactChips .contact-item .md-list-item-text h3 {
+      margin: 0 !important;
+      padding: 0;
+      line-height: 1.2em !important; }
+    .contactChips .contact-item .md-list-item-text h3, .contactChips .contact-item .md-list-item-text p {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden; }
+  @media (min-width: 960px) {
+    .contactChips .contact-item {
+      float: left;
+      width: 33%; } }
+.contactChips md-contact-chips {
+  margin-bottom: 10px; }
+.contactChips .md-chips {
+  padding: 5px 0 8px; }
+.contactChips .fixedRows {
+  height: 250px;
+  overflow: hidden; }
+

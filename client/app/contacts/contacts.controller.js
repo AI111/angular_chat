@@ -25,6 +25,7 @@
       this.$mdDialog=$mdDialog;
       this.$http=$http;
       this.$log=$log;
+      this.showSearch=false;
     }
     toggleSideNav(){
       this.$mdSidenav.toggle();
