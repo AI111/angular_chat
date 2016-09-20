@@ -1,0 +1,86 @@
+.rooms-grid-item{
+	/*background-color: red;*/
+	/*widows: 300psx;*/
+	/*background-color: #2daddc;
+	border: 1px solid #000000;*/
+}
+.rooms-grid-item time{
+	font-size: 12px;
+	font-weight: 500;
+	letter-spacing: 0.010em;
+	line-height: 18px;
+	/*text-align: right;*/
+}
+.rooms-grid-item .users-list{
+	font-size: 14px;
+	font-weight: 400;
+	letter-spacing: 0.010em;
+}
+/*.rooms-grid-item img{
+	width: 30%;
+	height: auto;
+	border-radius: 50%;
+	/*height: auto;*/
+}
+/*.rooms-grid-item h3{
+	font-size: 16px;
+	font-weight: 600;
+	letter-spacing: 0.010em;
+	margin: 0 0 0px 0;
+	line-height: 1.2em;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.rooms-grid-item h4{
+	font-size: 14px;
+	letter-spacing: 0.010em;
+	margin: 3px 0 1px 0;
+	font-weight: 400;
+	line-height: 1.2em;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.rooms-grid-item .card-media {
+	background-color: #999999; 
+}*/
+
+
+
+.contactChips md-content.autocomplete {
+  min-height: 250px; }
+  .contactChips md-content.autocomplete input {
+    min-width: 400px; }
+.contactChips .md-item-text.compact {
+  padding-top: 8px;
+  padding-bottom: 8px; }
+.contactChips .contact-item {
+  box-sizing: border-box; }
+  .contactChips .contact-item.selected {
+    opacity: 0.5; }
+    .contactChips .contact-item.selected h3 {
+      opacity: 0.5; }
+  .contactChips .contact-item .md-list-item-text {
+    padding: 14px 0;
+    max-width: 190px; }
+    .contactChips .contact-item .md-list-item-text h3 {
+      margin: 0 !important;
+      padding: 0;
+      line-height: 1.2em !important; }
+    .contactChips .contact-item .md-list-item-text h3, .contactChips .contact-item .md-list-item-text p {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden; }
+  @media (min-width: 960px) {
+    .contactChips .contact-item {
+      float: left;
+      width: 33%; } }
+.contactChips md-contact-chips {
+  margin-bottom: 10px; }
+.contactChips .md-chips {
+  padding: 5px 0 8px; }
+.contactChips .fixedRows {
+  height: 250px;
+  overflow: hidden; }
+
