@@ -117,6 +117,7 @@ export function getUsers(req, res) {
     .then(handleEntityNotFound(res))
     .then( (room)=>{
       // debug('getUsers room',room);
+
       if (room) {
         res.status(200).json(room.users);
       }
@@ -225,3 +226,4 @@ export function addMessage(req,res){
   debug('addMessage ',req.body);
 
 }
+

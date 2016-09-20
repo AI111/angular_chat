@@ -19,6 +19,7 @@ function mapToArr(myMap) {
   return ans;
 // О
 }
+
 export function register(socket,rooms) {
   // Bind model events to socket events
   var current_room;
@@ -55,6 +56,7 @@ export function register(socket,rooms) {
         clb(mapToArr(room.online_users));
 
         debug('connected to room',room);
+
         socket.broadcast.to(room_id).emit('user connect',socket.decoded_token._id);
         // debug('connected clients',socket.clients(room_id));
       })
@@ -116,6 +118,7 @@ function handleAccess(socket) {
 
     if (entity.users.indexOf(userId)==-1) {
       debug('handleAccess users Array',entity);
+
       throw new InvalidItemsError();
     }
 

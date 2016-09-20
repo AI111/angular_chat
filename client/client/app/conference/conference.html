@@ -1,0 +1,21 @@
+	<md-content flex>
+		<div flex="initial">
+			<span ng-hide="error">
+				Allow the browser to use your web cam and after that share the URL from the address bar with the people you want to talk with.
+			</span>
+			<br>
+			<span ng-bind="$ctrl.error"></span>
+		</div> 
+		<div class="grid" >
+			<div class="video-wrapper" ng-repeat="peer in $ctrl.peers">
+				<video-player vid-src="{{peer.stream}}"></video-player>
+			</div>
+
+			
+		</div>
+			<div class="video-wrapper me">
+				<div>
+					<video ng-src="{{$ctrl.getLocalVideo()}}" autoplay muted></video>
+				</div>
+			</div>
+	</md-content>

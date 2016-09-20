@@ -627,7 +627,7 @@ grunt.initConfig({
         },
         openshift: {
             options: {
-                remote: 'ssh://57cc478b0c1e6672e700019b@chat-umap.rhcloud.com/~/git/chat.git/',
+              remote: 'ssh://57cc478b0c1e6672e700019b@chat-umap.rhcloud.com/~/git/chat.git/',
                 branch: 'master'
             }
         }

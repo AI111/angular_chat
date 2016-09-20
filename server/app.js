@@ -23,6 +23,7 @@ import fs from'fs';
 var debug = require('debug')('app')
 // Connect to MongoDB
 console.log('mongose',config.mongo.uri, config.mongo.options);
+
 mongoose.connect(config.mongo.uri, config.mongo.options);
 mongoose.connection.on('error', function(err) {
   console.error('MongoDB connection error: ' + err);
@@ -35,6 +36,7 @@ if (config.seedDB) {console.log('Populate databases'); require('./config/seed');
 // Setup server
 var app = express();
 var server = https.createServer(app);
+
 var socketio = require('socket.io')(server, {
   serveClient: config.env !== 'production',
   path: '/socket.io-client'
