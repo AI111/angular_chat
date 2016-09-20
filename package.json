@@ -36,9 +36,8 @@
     "serve-favicon": "^2.3.0",
     "node-uuid": "^1.4.2"
   },
-
   "devDependencies": {
-    "fast-json-patch":"^1.0.0",
+    "fast-json-patch": "^1.0.0",
     "autoprefixer": "^6.0.0",
     "babel-core": "^6.6.5",
     "babel-register": "^6.6.5",

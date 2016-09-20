@@ -4,28 +4,33 @@
   height: auto;
   padding-top: 8px;
   padding-bottom: 8px;
-  white-space: normal; 
+  white-space: normal;
 }
+
 .autocomplete-custom-template li:last-child {
-  border-bottom-width: 0; 
+  border-bottom-width: 0;
 }
+
 .autocomplete-custom-template .item-title,
 .autocomplete-custom-template .item-metadata {
   display: block;
-  line-height: 2; 
+  line-height: 2;
 }
+
 .autocomplete-custom-template .item-title img {
   height: 18px;
-  width: 18px; 
+  width: 18px;
 }
-.profile{
+
+.profile {
 
 }
-.profile img{
-/*  float: left;
-  border-radius: 50%;
-  max-width: 40%;
-  height:auto;*/
-  width:100%;
-  height:auto;
+
+.profile img {
+  /*  float: left;
+    border-radius: 50%;
+    max-width: 40%;
+    height:auto;*/
+  width: 100%;
+  height: auto;
 }
