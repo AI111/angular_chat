@@ -1,6 +1,9 @@
 # angular-chat
+####App deployed:
+[**http://chat-umap.rhcloud.com/**](http://chat-umap.rhcloud.com/)
+[**https://104.155.27.51/**](https://104.155.27.51/)
 
-This project was generated with the [Angular Full-Stack Generator](https://github.com/DaftMonk/generator-angular-fullstack) version 3.7.5.
+This project was generated with the [Angular Full-Stack Generator](https://github.com/DaftMonk/generator-angular-fullstack)
 
 ## Getting Started
 
@@ -12,20 +15,3 @@ This project was generated with the [Angular Full-Stack Generator](https://githu
 - [Gulp](http://gulpjs.com/) (`npm install --global gulp`)
 - [MongoDB](https://www.mongodb.org/) - Keep a running daemon with `mongod`
 
-### Developing
-
-1. Run `npm install` to install server dependencies.
-
-2. Run `bower install` to install front-end dependencies.
-
-3. Run `mongod` in a separate shell to keep an instance of the MongoDB Daemon running
-
-4. Run `gulp serve` to start the development server. It should automatically open the client in your browser when ready.
-
-## Build & development
-
-Run `grunt build` for building and `grunt serve` for preview.
-
-## Testing
-
-Running `npm test` will run the unit tests with karma.
