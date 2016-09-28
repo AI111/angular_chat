@@ -649,3 +649,19 @@ gulp.task('buildcontrol:openshift', function(done) {
         function() {done();}
     );
 });
+
+
+gulp.task('sloc:client', ()=> {
+  // onServerLog('sloc:client')
+  gulp.src(paths.client.scripts)
+    .pipe(plugins.sloc());
+});
+gulp.task('sloc:server', ()=> {
+  // onServerLog('sloc:server')
+  gulp.src(paths.server.scripts)
+    .pipe(plugins.sloc());
+})
+
+gulp.task('sloc', ()=> {
+  runSequence('sloc:client', 'sloc:server');
+});

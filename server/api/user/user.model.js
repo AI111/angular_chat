@@ -1,9 +1,9 @@
 'use strict';
 
-import crypto from 'crypto';
-import mongoose from 'mongoose';
+import crypto from "crypto";
+import mongoose, {Schema} from "mongoose";
+import config from "../../config/environment";
 mongoose.Promise = require('bluebird');
-import {Schema} from 'mongoose';
 const authTypes = ['github', 'twitter', 'facebook', 'google'];
 
 var UserSchema = new Schema({
@@ -35,7 +35,7 @@ var UserSchema = new Schema({
   },
   img: {
     type:String,
-    default:'/assets/avatars/5cc6d9872253e554e2c56fb80581753c.jpg'
+    default: config.user.url + config.user.photo
   },
   contacts:[{type: Schema.Types.ObjectId,ref: 'User'}],
   invites:[{type: Schema.Types.ObjectId,ref: 'Invite'}],

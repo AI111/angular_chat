@@ -26,7 +26,8 @@ const storage = multer.diskStorage({
     cb(null, 'uploads')
   },
   filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now())
+    debug('file name', file);
+    cb(null, file.fieldname + '-' + Date.now() + file.mimetype.replace(/\w*\//, '.'))
   }
 });
 
@@ -296,23 +297,26 @@ export function authCallback(req, res, next) {
 }
 
 export function changeImege(req, res, next) {
-  debug('changeImege', req.file);
   upload(req, res, function (err) {
+    debug('changeImege', req.file);
     if (err) {
       // An error occurred when uploading
       return res.status(403).end();
     }
     return User.findById(req.user._id).exec()
       .then(user=> {
-        if (user.img === config.photo) {
-          user.img = req.file.path;
+        if (user.img === config.user.url + config.user.photo) {
+          user.img = config.user.url + req.file.filename;
           return Promise.resolve(user);
         } else {
-          user.img = req.file.path;
-          return fs.unlink(req.file.path).then(()=> {
-            return Promise.resolve(user);
-          })
-            .catch(err=> {
+          let imgPath = config.root + '/' + user.img.replace(config.user.url, config.fileDir);
+          debug('removed path', imgPath);
+          user.img = config.user.url + req.file.filename;
+          return unlink(imgPath)
+            .then(()=> {
+              user.img = config.user.url + req.file.filename;
+              return Promise.resolve(user);
+            }).catch(err=> {
               return Promise.reject(err);
             })
         }
@@ -344,9 +348,21 @@ function exists(path) {
     });
   });
 }
+function unlink(path) {
+  return new Promise((resolve, reject)=> {
+    fs.unlink(path, (err)=> {
+      debug('exists', err);
+      if (err) {
+        reject(err);
+      } else {
+        resolve();
+      }
+    });
+  });
+}
 function imgResize(path, query) {
 
-  if (!query.sz || query.sz >= 100 || query.sz < 1) {
+  if (!query.sz || query.sz >= 512 || query.sz < 1) {
     return Promise.resolve(path);
   }
   let resizedPath = path.replace(/(\.w*|$)/, 'sz' + query.sz + '$1');
@@ -356,7 +372,7 @@ function imgResize(path, query) {
     } else {
       return new Promise((resolve, reject)=> {
         gm(path)
-          .resize(query.sz, null, '%')
+          .resize(query.sz, query.sz, '!')
           .write(resizedPath, function (err) {
             if (err) {
               reject(err);
