@@ -19,14 +19,15 @@ body {
 .wrapper {
   background-color: white;
   position: relative;
+  background: #f2f2f2;
 }
 .wrapper .inner {
   /*overflow: ;*/
   /*height: 520px;*/
   /*padding-top: 64px;*/
-  background: #f2f2f2;
-/*  -ms-overflow-style: none;
-overflow: -moz-scrollbars-none;*/
+
+  /*  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;*/
 }
 .wrapper .inner::-webkit-scrollbar {
   width: 0 !important;

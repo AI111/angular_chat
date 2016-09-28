@@ -3,8 +3,8 @@
 	<md-toolbar class="md-hue-2" md-scroll-shrink>
 		<div class="md-toolbar-tools">
 
-			
-		
+
+
 			<md-button class="md-icon-button" aria-label="Chat users" ng-click="$ctrl.toggleSideNav()">
 				<md-icon md-svg-src="/assets/icons/ic_menu_36px.svg"></md-icon>
 			</md-button>
@@ -22,7 +22,7 @@
 	</md-toolbar>
 	<!-- <md-content> -->
 	<md-content id="chat-content" flex class="content-list">
-		<div class="wrapper">
+    <div class="wrapper" flex>
 			<div id="inner" class="inner">
 				<div id="content" class="content">
 					<div ng-repeat="message in $ctrl.messeges" class="message-wrapper"  ng-class="message.sender._id == $ctrl.currentUser._id ? 'me' : 'them'">

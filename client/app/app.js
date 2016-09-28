@@ -1,19 +1,20 @@
 'use strict';
 
-angular.module('angularChatApp', 
-	['angularChatApp.auth', 
+angular.module('angularChatApp',
+	['angularChatApp.auth',
 	'angularChatApp.admin',
-  'angularChatApp.constants', 
+  'angularChatApp.constants',
   'angularChatApp.navDrawer',
   'angularChatApp.oauthButtons',
   'angularChatApp.videoConferance',
   'angularChatApp.videoStream',
-  'ngCookies', 
-  'ngResource', 
-  'ngSanitize', 
+    'ngFileUpload',
+  'ngCookies',
+  'ngResource',
+  'ngSanitize',
   'ngRoute',
   'ngMessages',
-  'btford.socket-io', 
+  'btford.socket-io',
   'validation.match',
   'ngMaterial',
   'ngMdIcons'
@@ -28,5 +29,5 @@ angular.module('angularChatApp',
 
 Object.setPrototypeOf = Object.setPrototypeOf || function(obj, proto) {
   obj.__proto__ = proto;
-  return obj; 
+  return obj;
 };

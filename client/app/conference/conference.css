@@ -33,7 +33,7 @@ conference .grid .video-wrapper div{
 .video-wrapper.me{
   position: fixed;
   bottom: 0;
-  background: green;
+  /*background: green;*/
   padding: 10px;
 }
 .video-wrapper.me video{

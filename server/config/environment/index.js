@@ -32,7 +32,7 @@ var all = {
   secrets: {
     session: 'angular-chat-secret'
   },
-
+  photo: '/assets/avatars/5cc6d9872253e554e2c56fb80581753c.jpg',
   // MongoDB connection options
   mongo: {
     options: {

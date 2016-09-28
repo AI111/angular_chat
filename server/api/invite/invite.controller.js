@@ -10,9 +10,9 @@
 
 'use strict';
 
-import jsonpatch from 'fast-json-patch';
-import Invite from './invite.model';
-import User from '../user/user.model'
+import jsonpatch from "fast-json-patch";
+import Invite from "./invite.model";
+import User from "../user/user.model";
 let debug = require('debug')('invite.controller');
 
 function respondWithResult(res, statusCode) {
@@ -85,14 +85,16 @@ export function create(req, res) {
   req.body.from=req.user._id;
   debug('create invite',req.body);
   return Invite.create(req.body)
-    .then(invite=>{
+    .then(invite=> {
       return User.findById(req.body.to).exec()
-        .then(user=>{
+        .then(user=> {
           user.invites.push(invite._id);
-          return user.save().then(u=>{
+          return user.save().then(u=> {
             return Promise.resolve(invite);
           })
-        }).catch(err=>{return Promise.reject(err);})
+        }).catch(err=> {
+          return Promise.reject(err);
+        })
     })
     .then(respondWithResult(res, 201))
     .catch(handleError(res));
@@ -100,15 +102,28 @@ export function create(req, res) {
 export function accept(req,res) {
   debug('accept',req.params.id);
   return Invite.findById(req.params.id).exec()
-    .then(invite=>{
+    .then(invite=> {
       return User.findById(req.user._id).exec()
-        .then(user=>{
+        .then(user=> {
+          //invited user
           if(user.contacts.indexOf(invite.from)==-1)user.contacts.push(invite.from);
           return user.save()
-            .then(()=>{
+            .then(()=> {
               return Promise.resolve(invite);
             })
         }).catch(err=>{
+          Promise.reject(err)
+        })
+    }).then(invite=> {
+      return User.findById(invite.from).exec()
+        .then(user=> {
+          //user vho invite
+          if (user.contacts.indexOf(invite.to) == -1)user.contacts.push(invite.to);
+          return user.save()
+            .then(()=> {
+              return Promise.resolve(invite);
+            })
+        }).catch(err=> {
           Promise.reject(err)
         })
     }).then(removeEntity(res))
@@ -142,15 +157,15 @@ export function patch(req, res) {
 export function destroy(req, res) {
   return Invite.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
-    .then(invite=>{
-      return User.findById(invite.to).exec().then(user=>{
+    .then(invite=> {
+      return User.findById(invite.to).exec().then(user=> {
         user.invites.remove(invite._id)
-        return user.save().then(()=>{
+        return user.save().then(()=> {
           return Promise.resolve(invite);
-        })
-      }).catch(err=>{
-        return Promise.reject(err);
       })
+      }).catch(err=> {
+        return Promise.reject(err);
+    })
     })
     .then(removeEntity(res))
     .catch(handleError(res));

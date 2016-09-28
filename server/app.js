@@ -4,20 +4,16 @@
 
 'use strict';
 
-import express from 'express';
-import mongoose from 'mongoose';
+import express from "express";
+import mongoose from "mongoose";
+import config from "./config/environment";
+import https from "http";
 mongoose.Promise = require('bluebird');
-import config from './config/environment';
-import https from 'http';
-import tls from 'tls';
-import fs from'fs';
 
 // var options = {
 //    key  : fs.readFileSync(__dirname+'/config/keys/server.key'),
 //    cert : fs.readFileSync(__dirname+'/config/keys/server.crt')
 // };
-
-
 
 
 var debug = require('debug')('app')

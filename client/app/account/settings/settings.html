@@ -10,8 +10,55 @@
   </div>
 </md-toolbar>
 
-<md-content layout-padding>
+<md-content layout-padding layout="column">
+  <div flex>
+    <form name="myForm">
+      <img ng-show="myForm.file.$valid" ngf-thumbnail="picFile" class="thumb">
+      <input type="file" ngf-select ng-model="picFile" name="file" class="md-raised md-primary"
+             accept="image/*" accept="image/*" ngf-max-size="2MB"
+             ngf-validate="{width: {min: 100, max:1200}, height: {min: 100, max: 1200}}"
+             ngf-resize="{width: 400, height: 400, quality: 1.0}" required
+             ngf-model-invalid="errorFile">
+      <div ng-messages="myForm.file.$error">
+        <div ng-message="minWidth">
+          Min Width has to be 1200px.
+        </div>
+        <div ng-message="minHeight">
+          Min Height has to be 100px.
+        </div>
+        <div ng-message="maxWidth">
+          Max Width has to be 1200px.
+        </div>
+        <div ng-message="maxHeight">
+          Max Height has to be 1200px.
+        </div>
+        <div ng-message="maxSize">
+          File is bigger than 2MB.
+        </div>
+        <div ng-message="required">
+          required
+        </div>
+      </div>
 
+      <md-button ng-click="picFile = null" ng-show="picFile">Remove</md-button>
+      <md-button ng-disabled="!myForm.$valid"
+                 ng-click="vm.changePhoto(picFile)">Submit
+      </md-button>
+      <span class="progress" ng-show="picFile.progress >= 0">
+        <div style="width:{{picFile.progress}}%"
+             ng-bind="picFile.progress + '%'"></div>
+      </span>
+      <span ng-show="picFile.result">Upload Successful</span>
+      <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+
+    </form>
+    <div flex>
+      <form action="/api/users/photo" method="post" enctype="multipart/form-data">
+        <input type="file" name="pic" accept="image/*">
+        <input type="submit">
+      </form>
+    </div>
+    <div flex>
       <form class="form" name="form" ng-submit="vm.changePassword(form)" novalidate layout="column">
 
         <md-input-container class="md-block">
@@ -20,7 +67,7 @@
           <input type="password" name="password" class="form-control" ng-model="vm.user.oldPassword"
                  mongoose-error/>
           <p class="help-block" ng-show="form.password.$error.mongoose">
-              {{ vm.errors.other }}
+            {{ vm.errors.other }}
           </p>
         </md-input-container>
 
@@ -36,7 +83,7 @@
           </p>
         </md-input-container>
 
-         <md-input-container class="md-block">
+        <md-input-container class="md-block">
           <label>Confirm New Password</label>
 
           <input type="password" name="confirmPassword" class="form-control" ng-model="vm.user.confirmPassword"
@@ -44,7 +91,7 @@
                  ng-minlength="3"
                  required=""/>
           <div class="help-block"
-             ng-show="form.confirmPassword.$error.match && vm.submitted">
+               ng-show="form.confirmPassword.$error.match && vm.submitted">
             Passwords must match.
           </div>
 
@@ -54,4 +101,5 @@
 
         <md-button class="md-primary" type="submit">Save changes</md-button>
       </form>
+    </div>
 </md-content>
