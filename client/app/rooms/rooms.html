@@ -12,7 +12,7 @@
 
 <md-content flex>
   <div  layout="row " layout-wrap flex class="card-grid" >
-    
+
     <md-card class="rooms-grid-item card" ng-repeat="room in $ctrl.rooms">
 
       <md-card-title>
@@ -24,7 +24,7 @@
 
         <md-card-title-media>
           <div class="md-media-md card-media">
-            <img ng-src="{{room.creator.img}}" flex  />
+            <img ng-src="{{room.creator.img+'?sz=128'}}" flex/>
           </div>
         </md-card-title-media>
       </md-card-title>

@@ -1,7 +1,7 @@
 <div ng-controller="NavDrawerController" ng-cloak>
   <md-toolbar>
     <div id="profile" layout="column" layout-margin ng-show="drawer.isLoggedIn()" >
-      <img name="profile-img" class="user-avatar" ng-src="{{drawer.getCurrentUser().img}}"/>
+      <img name="profile-img" class="user-avatar" ng-src="{{drawer.getCurrentUser().img+'?sz=200'}}"/>
       <h4 name="profile-name" class="navbar-text">Name {{ drawer.getCurrentUser().name }}</h4>
       <h5 name="profile-email" class="navbar-text">email: {{ drawer.getCurrentUser().email}}</h5>
 

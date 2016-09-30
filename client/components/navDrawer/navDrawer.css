@@ -1,5 +1,5 @@
 .nav-list{
-	
+
 }
 .nav-list md-list-item{
 padding: 0;
@@ -40,6 +40,6 @@ md-list-item a md-icon{
 }
 .user-avatar {
   border-radius: 50%;
-  width: 40%;
-  height:40%;
+  width: 50%;
+  height: auto;
 }

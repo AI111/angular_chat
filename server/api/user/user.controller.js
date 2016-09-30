@@ -317,7 +317,8 @@ export function changeImege(req, res, next) {
               user.img = config.user.url + req.file.filename;
               return Promise.resolve(user);
             }).catch(err=> {
-              return Promise.reject(err);
+              //TODO: removr file after save user
+              return Promise.resolve(user);
             })
         }
       })

@@ -12,12 +12,14 @@
 
 <md-content layout-padding layout="column">
   <div flex>
+    <md-subheader class="md-primary">Change avatar</md-subheader>
     <form name="myForm">
       <img ng-show="myForm.file.$valid" ngf-thumbnail="picFile" class="thumb">
       <input type="file" ngf-select ng-model="picFile" name="file" class="md-raised md-primary"
              accept="image/*" accept="image/*" ngf-max-size="2MB"
-             ngf-validate="{width: {min: 100, max:1200}, height: {min: 100, max: 1200}}"
-             ngf-resize="{width: 400, height: 400, quality: 1.0}" required
+             ngf-validate="{width: {min: 100, max:2000}, height: {min: 100, max: 2000}}"
+             ngf-resize="{width: 512, height: 512, centerCrop: true}" required
+             ngf-resize-if="$width > 512 || $height > 512"
              ngf-model-invalid="errorFile">
       <div ng-messages="myForm.file.$error">
         <div ng-message="minWidth">
@@ -52,13 +54,9 @@
       <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
 
     </form>
-    <div flex>
-      <form action="/api/users/photo" method="post" enctype="multipart/form-data">
-        <input type="file" name="pic" accept="image/*">
-        <input type="submit">
-      </form>
     </div>
     <div flex>
+      <md-subheader class="md-primary">Change password</md-subheader>
       <form class="form" name="form" ng-submit="vm.changePassword(form)" novalidate layout="column">
 
         <md-input-container class="md-block">
