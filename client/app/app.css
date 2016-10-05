@@ -31,7 +31,8 @@
     max-width: 730px;
   }
 }
-.change-my-css{
+
+.block-overflow {
   overflow: hidden;
 }
 .help-block{
